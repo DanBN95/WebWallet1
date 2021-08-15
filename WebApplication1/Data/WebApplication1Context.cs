@@ -15,5 +15,11 @@ namespace WebApplication1.Data
         }
 
         public DbSet<WebApplication1.Models.User> User { get; set; }
+
+        public DbSet<WebApplication1.Models.Expenses> Expenses { get; set; }
+
+        public DbSet<WebApplication1.Models.Account> Account { get; set; }
+
+        public DbSet<WebApplication1.Models.Incomes> Incomes { get; set; }
     }
 }

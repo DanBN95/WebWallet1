@@ -18,7 +18,7 @@ namespace WebApplication1.Models
         public int Id { get; set; }
         public double Amount { get; set; }
         public String Description { get; set; }
-        public InCategory Category  { get; set; }
+        public InCategory Category { get; set; } = InCategory.Other;
         public DateTime Date { get; set; }
 
 
