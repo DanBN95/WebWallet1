@@ -53,7 +53,7 @@ namespace WebApplication1.Controllers
                     var u = _context.User.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
                     Signin(u);
-                    return RedirectToAction(nameof(Index), "Home");
+                    return RedirectToAction(nameof(Index), "Accounts");
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace WebApplication1.Controllers
                 {
                     Signin(q.First());
                    
-                    return RedirectToAction(nameof(Index), "Home");
+                    return RedirectToAction(nameof(Index), "Accounts");
                 }
                 else
                 {
