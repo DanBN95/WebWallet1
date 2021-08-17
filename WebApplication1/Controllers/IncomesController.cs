@@ -19,6 +19,30 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
+        // GET: Incomes
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Incomes.ToListAsync());
+        }
+
+        // GET: Incomes/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var incomes = await _context.Incomes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
+
+            return View(incomes);
+        }
+
         // GET: Incomes/Create
         public IActionResult Create()
         {
@@ -40,115 +64,90 @@ namespace WebApplication1.Controllers
             }
             return View(incomes);
         }
-        // GET: Incomes
-        //    public async Task<IActionResult> Index()
-        //    {
-        //        return View(await _context.Incomes.ToListAsync());
-        //    }
 
-        //    // GET: Incomes/Details/5
-        //    public async Task<IActionResult> Details(int? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
+        // GET: Incomes/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //        var incomes = await _context.Incomes
-        //            .FirstOrDefaultAsync(m => m.Id == id);
-        //        if (incomes == null)
-        //        {
-        //            return NotFound();
-        //        }
+            var incomes = await _context.Incomes.FindAsync(id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
+            return View(incomes);
+        }
 
-        //        return View(incomes);
-        //    }
+        // POST: Incomes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date")] Incomes incomes)
+        {
+            if (id != incomes.Id)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(incomes);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!IncomesExists(incomes.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(incomes);
+        }
 
-        //    // GET: Incomes/Edit/5
-        //    public async Task<IActionResult> Edit(int? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
+        // GET: Incomes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //        var incomes = await _context.Incomes.FindAsync(id);
-        //        if (incomes == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        return View(incomes);
-        //    }
+            var incomes = await _context.Incomes
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
 
-        //    // POST: Incomes/Edit/5
-        //    // To protect from overposting attacks, enable the specific properties you want to bind to.
-        //    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date")] Incomes incomes)
-        //    {
-        //        if (id != incomes.Id)
-        //        {
-        //            return NotFound();
-        //        }
+            return View(incomes);
+        }
 
-        //        if (ModelState.IsValid)
-        //        {
-        //            try
-        //            {
-        //                _context.Update(incomes);
-        //                await _context.SaveChangesAsync();
-        //            }
-        //            catch (DbUpdateConcurrencyException)
-        //            {
-        //                if (!IncomesExists(incomes.Id))
-        //                {
-        //                    return NotFound();
-        //                }
-        //                else
-        //                {
-        //                    throw;
-        //                }
-        //            }
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        return View(incomes);
-        //    }
+        // POST: Incomes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var incomes = await _context.Incomes.FindAsync(id);
+            _context.Incomes.Remove(incomes);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-        //    // GET: Incomes/Delete/5
-        //    public async Task<IActionResult> Delete(int? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        var incomes = await _context.Incomes
-        //            .FirstOrDefaultAsync(m => m.Id == id);
-        //        if (incomes == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return View(incomes);
-        //    }
-
-        //    // POST: Incomes/Delete/5
-        //    [HttpPost, ActionName("Delete")]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> DeleteConfirmed(int id)
-        //    {
-        //        var incomes = await _context.Incomes.FindAsync(id);
-        //        _context.Incomes.Remove(incomes);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    private bool IncomesExists(int id)
-        //    {
-        //        return _context.Incomes.Any(e => e.Id == id);
-        //    }
-        //}
+        private bool IncomesExists(int id)
+        {
+            return _context.Incomes.Any(e => e.Id == id);
+        }
     }
 }
