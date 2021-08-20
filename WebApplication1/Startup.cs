@@ -33,6 +33,7 @@ namespace WebApplication1
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
+                
             }
             );
 
@@ -41,6 +42,7 @@ namespace WebApplication1
             {
                 options.LoginPath = "/Users/Login";
                 options.AccessDeniedPath = "/Users/AccessDenied"; 
+                
             });
 
 
@@ -63,7 +65,7 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();

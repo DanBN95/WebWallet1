@@ -20,8 +20,10 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Accounts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Object userId)
         {
+            //string id = userId["id"];
+            //return View(await _context.Account.Where(x => x.UserId == userId).ToListAsync());
             return View(await _context.Account.ToListAsync());
         }
 
@@ -54,7 +56,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Balance,SavingBalance")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +88,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Balance,SavingBalance")] Account account)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
         {
             if (id != account.Id)
             {
