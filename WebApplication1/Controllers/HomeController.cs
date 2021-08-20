@@ -11,7 +11,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize]         // Permmited Function for connected users
+            // Permmited Function for connected users
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -26,6 +26,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             //if (HttpContext.Session.GetString("username") == null)
