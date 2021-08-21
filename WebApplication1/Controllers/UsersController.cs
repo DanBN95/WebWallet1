@@ -46,25 +46,30 @@ namespace WebApplication1.Controllers
                 if (ModelState.IsValid)
                 {
                     var q = _context.User.FirstOrDefault(u => u.Username == user.Username || u.Email == user.Email);
-                    if (q == null)
-                    {
-                        _context.Add(user);
-                        await _context.SaveChangesAsync();
+                if (q == null)
+                {
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
 
-                        var u = _context.User.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+                    var u = _context.User.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
+                    //  Creating new Account
                     Account account = new Account();
                     account.UserId = user.Id;
                     account.Name = user.Username;
                     _context.Account.Add(account);
+
+                    //  Attaching the new accountId to the relevant user
+                    u.AccountId = account.Id;
+
                     _context.SaveChanges();
                     Signin(u);
-                        return RedirectToAction(nameof(Index), "Accounts",new { id = 4 });
-                    }
-                    else
-                    {
-                        ViewData["Error"] = "Unable to comply; Email adress or username are already exist";
-                    }
+                    return RedirectToAction(nameof(Index), "Accounts");
+                }
+                else
+                {
+                    ViewData["Error"] = "Unable to comply; Email adress or username are already exist";
+                }
 
                 }
                 return View(user);
@@ -95,7 +100,7 @@ namespace WebApplication1.Controllers
 
                     Signin(q.First());
 
-                    return RedirectToAction(nameof(Index), "Accounts", new { id = 4 });
+                    return RedirectToAction(nameof(Index), "Accounts");
                 }
                 else
                 {
@@ -107,11 +112,17 @@ namespace WebApplication1.Controllers
             }
             private async void Signin(User account)
             {
-                var claims = new List<Claim>
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, account.Username),
-                new Claim(ClaimTypes.Role, account.Type.ToString()),
+                //  Account Id
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
                 
+                //  Account permissions
+                new Claim(ClaimTypes.Role, account.Type.ToString()),
+
+                //  Username
+                new Claim("username",account.Username),
+
             };
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
