@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
+using System.Security.Claims;
 
 namespace WebApplication1.Controllers
 {
@@ -20,11 +21,29 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Accounts
-        public async Task<IActionResult> Index(Object userId)
+        public async Task<IActionResult> Index()
         {
             //string id = userId["id"];
             //return View(await _context.Account.Where(x => x.UserId == userId).ToListAsync());
-            return View(await _context.Account.ToListAsync());
+            string user_name = ((ClaimsIdentity)User.Identity).FindFirst(type: "username").Value;
+            var account = from a in _context.Account
+                    where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                    select a;
+            
+            if (account.Count() > 0)
+            {
+                ViewBag.Username = account.First().Name;
+                ViewBag.Balance = account.First().Balance;
+                ViewBag.SavingBalance = account.First().SavingBalance;
+            }
+            else
+            {
+                Console.WriteLine("Problem with Cookie!");
+            }
+            //viewbag.username = user_name;
+           
+            //return View(await _context.Account.ToListAsync());
+            return View();
         }
 
         // GET: Accounts/Details/5
