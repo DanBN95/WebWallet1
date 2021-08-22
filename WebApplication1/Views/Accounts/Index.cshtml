@@ -6,42 +6,66 @@
 
 <h1>Hello @ViewBag.Username! What do you want to do?</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="table">
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SavingBalance)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @ViewBag.Balance
-            </td>
-            <td>
-                @ViewBag.SavingBalance
-            </td>
-        </tr>
-    </tbody>
-</table>
-    </div>
-
-<div class="container-fluid padding">
-    <div class="row padding">
-        <div class="col-lg-6">
-            <a asp-controller="Incomes" asp-action="Index">Incomes</a>
-        </div>
-        <div class="col-lg-6">
-            <a asp-controller="Expenses" asp-action="Index">Expenses</a>
+<div class="bottom">
+    <div class="add">
+        <div class="add__container">
+            <select class="add__type">
+                <option value="inc"  selected>+</option>
+                <option value="exp">-</option>
+            </select>
+            @*<select id="description" name="description">
+                <option repeat.for="des of description" model.bind="des"></option>
+            </select>*@
+            <input type="text" class="add__description" placeholder="Add description">
+            <input type="number" class="add__value" placeholder="Value">
+            <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
         </div>
     </div>
 </div>
+    <div class="table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Balance)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SavingBalance)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @ViewBag.Balance
+                    </td>
+                    <td>
+                        @ViewBag.SavingBalance
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="col-lg-6">
+                <a asp-controller="Incomes" asp-action="Index">Incomes</a>
+            </div>
+            <div class="col-lg-6">
+                <a asp-controller="Expenses" asp-action="Index">Expenses</a>
+            </div>
+        </div>
+    </div>
+<script>
+
+    function getSelectedSign() {
+
+        var sign = document.getElementById("description");
+        console.log(sign.nodeValue);
+        //if (sign == "+") {
+            
+        //}
+    }
+</script>
