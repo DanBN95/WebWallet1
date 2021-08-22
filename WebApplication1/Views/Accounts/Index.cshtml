@@ -4,21 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Hello @ViewBag.Username! What do you want to do?</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<div class="cover-section">
-    <canvas id="mainCanvas" class="cover-photo" width="500" height="250"></canvas>
-    <h3>Hello @ViewBag.Username! What do you want to do?</h3>
-</div>
+<div class="table">
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
@@ -31,9 +25,6 @@
     <tbody>
         <tr>
             <td>
-                @ViewBag.Username
-            </td>
-            <td>
                 @ViewBag.Balance
             </td>
             <td>
@@ -42,3 +33,15 @@
         </tr>
     </tbody>
 </table>
+    </div>
+
+<div class="container-fluid padding">
+    <div class="row padding">
+        <div class="col-lg-6">
+            <a asp-controller="Incomes" asp-action="Index">Incomes</a>
+        </div>
+        <div class="col-lg-6">
+            <a asp-controller="Expenses" asp-action="Index">Expenses</a>
+        </div>
+    </div>
+</div>
