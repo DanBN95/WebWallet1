@@ -23,13 +23,10 @@ namespace WebApplication1.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            //string id = userId["id"];
-            //return View(await _context.Account.Where(x => x.UserId == userId).ToListAsync());
-            string user_name = ((ClaimsIdentity)User.Identity).FindFirst(type: "username").Value;
             var account = from a in _context.Account
                     where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                     select a;
-            
+
             if (account.Count() > 0)
             {
                 ViewBag.Username = account.First().Name;
@@ -40,9 +37,6 @@ namespace WebApplication1.Controllers
             {
                 Console.WriteLine("Problem with Cookie!");
             }
-            //viewbag.username = user_name;
-           
-            //return View(await _context.Account.ToListAsync());
             return View();
         }
 
