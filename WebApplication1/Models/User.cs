@@ -18,7 +18,11 @@ namespace WebApplication1.Models
 
         [Required]
         [StringLength(20,ErrorMessage ="Name out of range!")]
-        public string Username { get; set; }
+        public string User_first_name { get; set; }
+
+        [Required]
+        [StringLength(20, ErrorMessage = "Name out of range!")]
+        public string User_last_name { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -29,6 +33,5 @@ namespace WebApplication1.Models
         public string Password { get; set; }
 
         public UserType Type { get; set; } = UserType.Client;
-        public int AccountId { get; set; }
     }
 }

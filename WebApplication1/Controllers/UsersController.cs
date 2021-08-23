@@ -41,30 +41,31 @@ namespace WebApplication1.Controllers
             // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Register([Bind("Id,Username,Email,Password")] User user)
+            public async Task<IActionResult> Register([Bind("Id,User_first_name,User_last_name,Email,Password")] User user)
             {
                 if (ModelState.IsValid)
                 {
-                    var q = _context.User.FirstOrDefault(u => u.Username == user.Username || u.Email == user.Email);
+                    var q = _context.User.FirstOrDefault(u =>  u.Email == user.Email);
                 if (q == null)
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 
-                    var u = _context.User.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+                    var u = _context.User.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+
+                    
 
                     //  Creating new Account
-                    Account account = new Account();
-                    account.UserId = user.Id;
-                    account.Name = user.Username;
-                    _context.Account.Add(account);
-
-                    //  Attaching the new accountId to the relevant user
-                    u.AccountId = account.Id;
-
-                    _context.SaveChanges();
+                    //Account account = new Account();
+                    //account.UserId = user.Id;
+                    //account.Name = user.Username;
+                    //account.ExpensesList = new List<Expenses>();
+                    //account.IncomesList = new List<Incomes>();
+                    //account.FuturePaymentesList = new List<FuturePayment>();
+                    //_context.Account.Add(account);
+                    //_context.SaveChanges();
                     Signin(u);
-                    return RedirectToAction(nameof(Index), "Accounts");
+                    return RedirectToAction("Create", "Accounts");
                 }
                 else
                 {
@@ -96,8 +97,6 @@ namespace WebApplication1.Controllers
 
                 if (q.Count() > 0) {
 
-                Response.Cookies.Append("username", q.First().Username);
-
                     Signin(q.First());
 
                     return RedirectToAction(nameof(Index), "Accounts");
@@ -121,7 +120,9 @@ namespace WebApplication1.Controllers
                 new Claim(ClaimTypes.Role, account.Type.ToString()),
 
                 //  Username
-                new Claim("username",account.Username),
+                new Claim("username",account.User_first_name),
+
+          
 
             };
                 var claimsIdentity = new ClaimsIdentity(
