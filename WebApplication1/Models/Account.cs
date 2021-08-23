@@ -12,9 +12,11 @@ namespace WebApplication1.Models
         public String Name { get; set; }
         public double Balance { get; set; } = 0;
         public double SavingBalance { get; set; } = 0;
-        public List<Expenses> ExpensesList { get; set; }
         public List<Incomes> IncomesList { get; set; }
-        public List<FuturePayment> FuturePaymentesList { get; set; }
+        public List<Expenses> ExpensesList { get; set; }
+
+        public List<FuturePayment> FuturePaymentList { get; set; } = null;
+
 
     }
 }

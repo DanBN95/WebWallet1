@@ -27,6 +27,8 @@ namespace WebApplication1.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Frequency Frequency { get; set; }
+       
         public List<Account> AccountsList{ get; set; }
+       
     }
 }

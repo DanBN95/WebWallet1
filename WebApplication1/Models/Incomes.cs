@@ -21,6 +21,10 @@ namespace WebApplication1.Models
         public InCategory Category { get; set; } = InCategory.Other;
         public DateTime Date { get; set; }
 
+        public int AccountId { get; set; }
+
+        public Account Account { get; set; }
+
 
 
 

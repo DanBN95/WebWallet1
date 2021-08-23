@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,7 +23,11 @@ namespace WebApplication1.Controllers
         // GET: Expenses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Expenses.ToListAsync());
+            var temp = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            var id = Int32.Parse(temp);
+
+            var webApplication1Context = _context.Expenses.Include(e => e.AccountId==id);
+            return View(await webApplication1Context.ToListAsync());
         }
 
         // GET: Expenses/Details/5
@@ -34,6 +39,7 @@ namespace WebApplication1.Controllers
             }
 
             var expenses = await _context.Expenses
+                .Include(e => e.Account)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (expenses == null)
             {
@@ -46,6 +52,7 @@ namespace WebApplication1.Controllers
         // GET: Expenses/Create
         public IActionResult Create()
         {
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id");
             return View();
         }
 
@@ -56,12 +63,29 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Amount,Description,Category,Date")] Expenses expenses)
         {
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+
             if (ModelState.IsValid)
             {
-                _context.Add(expenses);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (account.Count() > 0)
+                {
+                    string user_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                    expenses.AccountId = Int32.Parse(user_id);
+
+                    _context.Add(expenses);
+                    account.First().ExpensesList.Add(expenses);
+                    account.First().Balance -= expenses.Amount;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index), "Accounts");
+                }
             }
+            else
+            {
+                ViewData["Error"] = "Unable to comply; Wrong input for expenses";
+            }
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", expenses.AccountId);
             return View(expenses);
         }
 
@@ -78,6 +102,7 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", expenses.AccountId);
             return View(expenses);
         }
 
@@ -86,7 +111,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date")] Expenses expenses)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date,AccountId")] Expenses expenses)
         {
             if (id != expenses.Id)
             {
@@ -113,6 +138,7 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", expenses.AccountId);
             return View(expenses);
         }
 
@@ -125,6 +151,7 @@ namespace WebApplication1.Controllers
             }
 
             var expenses = await _context.Expenses
+                .Include(e => e.Account)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (expenses == null)
             {
