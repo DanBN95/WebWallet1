@@ -59,7 +59,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Accounts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -69,15 +69,35 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
+        public async Task<IActionResult> Create([Bind("Id,Balance,SavingBalance")] Account account)
         {
             if (ModelState.IsValid)
-            {
+            { 
+                string user_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                account.UserId = Int32.Parse(user_id);
+                account.Name = ((ClaimsIdentity)User.Identity).FindFirst("username").Value;
+                account.ExpensesList = new List<Expenses>();
+                account.IncomesList = new List<Incomes>();
+                account.FuturePaymentesList = new List<FuturePayment>();
                 _context.Add(account);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(account);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async void Create_new([Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
+        {
+            if (ModelState.IsValid)
+            {
+                account.ExpensesList = new List<Expenses>();
+                account.IncomesList = new List<Incomes>();
+                account.FuturePaymentesList = new List<FuturePayment>();
+                _context.Add(account);
+                await _context.SaveChangesAsync();
+               
+            }
         }
 
         // GET: Accounts/Edit/5

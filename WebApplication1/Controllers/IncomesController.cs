@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,8 +46,8 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Incomes/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create() { 
+        
             return View();
         }
 
@@ -57,12 +58,28 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Amount,Description,Category,Date")] Incomes incomes)
         {
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+ 
+
             if (ModelState.IsValid)
             {
-                _context.Add(incomes);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (account.Count() > 0)
+                {
+                    _context.Add(incomes);
+                    
+                    account.First().IncomesList.Add(incomes);
+                    account.First().Balance += incomes.Amount;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            else
+            {
+                ViewData["Error"] = "Unable to comply; Wrong input for income";
+            }
+
             return View(incomes);
         }
 
