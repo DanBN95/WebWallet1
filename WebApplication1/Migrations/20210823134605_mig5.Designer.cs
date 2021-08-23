@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(WebApplication1Context))]
-    partial class WebApplication1ContextModelSnapshot : ModelSnapshot
+    [Migration("20210823134605_mig5")]
+    partial class mig5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AccountFuturePayment", b =>
-                {
-                    b.Property<int>("AccountsListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FuturePaymentListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AccountsListId", "FuturePaymentListId");
-
-                    b.HasIndex("FuturePaymentListId");
-
-                    b.ToTable("AccountFuturePayment");
-                });
 
             modelBuilder.Entity("WebApplication1.Models.Account", b =>
                 {
@@ -43,6 +30,12 @@ namespace WebApplication1.Migrations
 
                     b.Property<double>("Balance")
                         .HasColumnType("float");
+
+                    b.Property<int>("ExpensesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IncomesId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -55,6 +48,10 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExpensesId");
+
+                    b.HasIndex("IncomesId");
+
                     b.ToTable("Account");
                 });
 
@@ -65,9 +62,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
@@ -82,42 +76,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.ToTable("Expenses");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.FuturePayment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Frequency")
-                        .HasColumnType("int");
-
-                    b.Property<double>("GoalCost")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PaymentCost")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FuturePayment");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Incomes", b =>
@@ -127,9 +86,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
@@ -143,8 +99,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
 
                     b.ToTable("Incomes");
                 });
@@ -182,48 +136,23 @@ namespace WebApplication1.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("AccountFuturePayment", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Models.FuturePayment", null)
-                        .WithMany()
-                        .HasForeignKey("FuturePaymentListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Expenses", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Account", "Account")
-                        .WithMany("ExpensesList")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Incomes", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Account", "Account")
-                        .WithMany("IncomesList")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.Account", b =>
                 {
-                    b.Navigation("ExpensesList");
+                    b.HasOne("WebApplication1.Models.Expenses", "Expenses")
+                        .WithMany()
+                        .HasForeignKey("ExpensesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("IncomesList");
+                    b.HasOne("WebApplication1.Models.Incomes", "Incomes")
+                        .WithMany()
+                        .HasForeignKey("IncomesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expenses");
+
+                    b.Navigation("Incomes");
                 });
 #pragma warning restore 612, 618
         }
