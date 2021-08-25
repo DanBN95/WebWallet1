@@ -23,11 +23,16 @@ namespace WebApplication1.Controllers
         // GET: Expenses
         public async Task<IActionResult> Index()
         {
-            var temp = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            var id = Int32.Parse(temp);
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            try
+            {
+                var expenses = _context.Expenses.Where(i => i.AccountId == account.First().Id).ToList();
+                return View(expenses);
+            }
 
-            var webApplication1Context = _context.Expenses.Include(e => e.AccountId==id);
-            return View(await webApplication1Context.ToListAsync());
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Expenses/Details/5
@@ -75,11 +80,23 @@ namespace WebApplication1.Controllers
                     expenses.AccountId = Int32.Parse(user_id);
 
                     _context.Add(expenses);
+                    account.First().ExpensesList = new List<Expenses>();
                     account.First().ExpensesList.Add(expenses);
-                    account.First().Balance -= expenses.Amount;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index), "Accounts");
+
+                    double result = account.First().Balance - expenses.Amount;
+                    if (result >= 0)
+                    {
+                        account.First().Balance = result;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index), "Accounts");
+                    }
+                    else
+                    {
+                        ViewBag.LowBalanceError = "Exception in balance!";
+                    }
+                    
                 }
+                
             }
             else
             {
