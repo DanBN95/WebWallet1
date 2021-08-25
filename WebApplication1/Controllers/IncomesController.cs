@@ -23,10 +23,17 @@ namespace WebApplication1.Controllers
         // GET: Incomes
         public async Task<IActionResult> Index()
         {
-            var temp = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            var id = Int32.Parse(temp);
-            var webApplication1Context = _context.Incomes.Where(i => i.AccountId==id);
-            return View(await webApplication1Context.ToListAsync());
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            try
+            {
+                var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id).ToList();
+                return View(incomes);
+            }
+            
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+   
         }
 
         // GET: Incomes/Details/5
@@ -72,7 +79,10 @@ namespace WebApplication1.Controllers
                 {
                     string user_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
                     incomes.AccountId = Int32.Parse(user_id);
+
                     _context.Add(incomes);
+                    account.First().IncomesList = new List<Incomes>();
+
                     account.First().IncomesList.Add(incomes);
                     account.First().Balance += incomes.Amount;
                     await _context.SaveChangesAsync();

@@ -72,6 +72,7 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Balance,SavingBalance")] Account account)
         {
+
             if (ModelState.IsValid)
             {
                 string user_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -80,6 +81,7 @@ namespace WebApplication1.Controllers
                 account.ExpensesList = new List<Expenses>();
                 account.IncomesList = new List<Incomes>();
                 _context.Add(account);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
