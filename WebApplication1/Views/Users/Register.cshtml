@@ -5,47 +5,127 @@
     Layout = "_LoginLayout";
 }
 
-<h1>Register a new user</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="User_first_name" class="control-label"></label>
-                <input asp-for= "User_first_name" class="form-control" />
-                <span asp-validation-for="User_first_name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="User_last_name" class="control-label"></label>
-                <input asp-for="User_last_name" class="form-control" />
-                <span asp-validation-for="User_last_name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
-            </div>
-        </form>
-        @if (ViewBag.Error != null)
-        {
-            <div class="text-danger">@ViewBag.Error</div>
-        }
+<style>
+    .Logintitle {
+        padding-top: 30px;
+        font-size: 2rem;
+    }
+
+    .loginContainer {
+        font-size: 1.5rem;
+        background-image: linear-gradient(to bottom right,#7707C1, #4C1185 );
+        border-radius: 20px;
+        color: white;
+        box-shadow: 5px 10px 18px #888888;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .registerComment {
+        font-size: 1.2rem;
+        margin: 40px;
+        padding-bottom: 20px;
+    }
+
+    .loginbtn {
+        color: white;
+        font-weight: bold;
+        background-color: #2DCCB0;
+        font-size: 1rem;
+        border-radius: 40px;
+        width: 200px;
+        height: 50px;
+        margin-top: 100px;
+        border: none;
+    }
+
+    .myInput {
+        width: 80%;
+        border-radius: 10px;
+        background-color: #E8F0FE;
+        height: 60px;
+        border: none;
+    }
+
+    .error {
+        color: #FFE048;
+        font-size: 0.9rem;
+    }
+
+    .title {
+        font-weight: bold;
+        color: white
+    }
+
+    .inputContainer {
+        margin-top: 50px;
+    }
+    .logo {
+        padding-top: 10px;
+        color: #FFE048;
+        font-weight: bold;
+    }
+</style>
+<div class="loginContainer">
+    <div class="logo">
+        LOGO
+    </div>
+    <h1 class="Logintitle">Register a new user</h1>
+    <div>
+        <div class="col-12">
+            <form asp-action="Register">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="inputContainer">
+                    <label asp-for="User_first_name" class="control-label title"></label>
+                    <br />
+                    <input asp-for="User_first_name" class="myInput" />
+                    <br />
+
+                    <span asp-validation-for="User_first_name" class="error"></span>
+                </div>
+                <div class="inputContainer">
+                    <label asp-for="User_last_name" class="control-label title"></label>
+                    <br />
+                    <input asp-for="User_last_name" class="myInput" />
+                    <br />
+
+                    <span asp-validation-for="User_last_name" class="error"></span>
+                </div>
+                <div class="inputContainer">
+                    <label asp-for="Email" class="control-label title"></label>
+                    <br />
+
+                    <input asp-for="Email" class="myInput" />
+                    <br />
+
+                    <span asp-validation-for="Email" class="error"></span>
+                </div>
+                <div class="inputContainer">
+                    <label asp-for="Password" class="control-label title"></label>
+                    <br />
+
+                    <input asp-for="Password" class="myInput" />
+                    <br />
+
+                    <span asp-validation-for="Password" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn loginbtn" />
+                </div>
+            </form>
+            @if (ViewBag.Error != null)
+            {
+                <div class="text-danger">@ViewBag.Error</div>
+            }
+        </div>
+    </div>
+    <hr />
+
+    <div class="registerComment">
+        Already registered?<a asp-action="Login">Click Here</a>to Login
     </div>
 </div>
 
-<div>
-    Already registered?<a asp-action="Login">Click Here</a>to Login
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
