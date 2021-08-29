@@ -3,35 +3,32 @@
 }
 <style>
     .myContainer {
-        font-size: 1.5rem;
-        background-image: linear-gradient(to bottom right,#7707C1, #4C1185 );
-        border-radius: 20px;
-        color: white;
-        box-shadow: 5px 10px 18px #888888;
-        text-align: center;
-        margin-top: 50px;
-        padding:100px;
+        margin-top:50px;
+      
+    }
+
+    .myContainer a{
+        width:33%;
+        color:white;
+        font-size:2rem;
+
     }
 </style>
 
-<div class="text-center mt-3 myContainer">
-<div class="container-fluid padding">
-    <div class=" row text-center padding">
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <button>
-            <a asp-controller="Incomes" asp-action="Index">Incomes</a>
-            </button>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <i class=""></i>
-            <h3>Expneses</h3>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <i class=""></i>
-            <h3>Future Payments</h3>
-        </div>
+
+<div class="myContainer">
+    <p>
+        Welcome Back,
+    </p>
+    <div class="row text-center padding">
+       <a asp-controller="Incomes" asp-action="Index">My Incomes</a>
+       <a asp-controller="Expenses" asp-action="Index">My Expenses</a>
+       <a>My Future Payments</a>
+
+           
     </div>
 
 </div>
 
-    </div>
+   
+
