@@ -3,52 +3,106 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    .myThead {
+        font-weight: bold;
+        color: white;
+    }
 
-<h1>Index</h1>
+    .title {
+        color: white;
+        text-shadow: 2px 2px purple;
+        font-size: 3rem;
+        padding-top: 40px;
+        margin-bottom: 40px;
+        font-weight: bold;
+    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+    .myContainer {
+        font-size: 1.5rem;
+        background-image: linear-gradient(to bottom right,#37E9A8, #11a36d);
+        border-radius: 20px;
+        box-shadow: 2px 2px 18px #888888;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .myTbody {
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .addBtn {
+        padding-top:40px;
+        color: white;
+        font-size:1.3rem;
+    }
+        .addBtn:hover {
+            color: #37E9A8;
+            text-decoration:underline;
         }
-    </tbody>
-</table>
+
+    .colorWhite{
+        color:white;
+    }
+    .iconStyle {
+        color: #FFE048;
+    }
+
+</style>
+<div class="myContainer">
+    <h1 class="title">Expenses</h1>
+
+
+    <table class="table">
+        <thead class="myThead">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+
+        </thead>
+        <tbody class="myTbody">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit colorWhite"></i></a> |
+
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-calendar-times colorWhite"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+    <a class="addBtn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyle"></i> Add New Expense</a>
+
+
