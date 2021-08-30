@@ -20,16 +20,22 @@
         <thead class="myThead">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Amount)
+                    <a asp-action="Index" name="sortinginc" asp-route-sortinginc="@ViewData["SortingBy"]">
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">@Html.DisplayNameFor(model => model.Description)</a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Category)
+                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">
+                        @Html.DisplayNameFor(model => model.Category)
+                    </a>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Date)
+                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">
+                        @Html.DisplayNameFor(model => model.Date)
+                    </a>
                 </th>
                 <th>
                     Action

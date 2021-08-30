@@ -37,16 +37,37 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string AccountSearch)
+        public async Task<IActionResult> Index(string AccountSearch, string sortinginc)
         {
             ViewData["AccountDetails"] = AccountSearch;
-
+            ViewData["SortingBy"] = string.IsNullOrEmpty(sortinginc) ? "" : sortinginc;
+ 
             var account = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                           select a;
             try
             {
                 var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id).ToList();
+
+                switch(sortinginc)
+                {
+                    case "Date":
+                        incomes = incomes.OrderBy(i => i.Date).ToList();
+                        break;
+                    case "Amount":
+                        incomes = incomes.OrderBy(i => i.Amount).ToList();
+                        break;
+                    case "Description":
+                        incomes = incomes.OrderBy(i => i.Description).ToList();
+                        break;
+                    case "Category":
+                        incomes = incomes.OrderBy(i => i.Category).ToList();
+                        break;
+                    default:
+                        incomes = incomes.OrderByDescending(i => i.Date).ToList();
+                        break;
+                }
+
                 if (!String.IsNullOrEmpty(AccountSearch))
                 {
                     incomes = incomes.Where(i => i.Description.Contains(AccountSearch)).ToList();
