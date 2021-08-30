@@ -4,85 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<style>
-    .actionBtn {
-        font-size: 1.5rem;
-        color: white;
-        justify-content: center;
-        text-align: center;
-        font-weight: bold;
-        width: 40%;
-        border: 1px solid gray;
-        box-shadow: 2px 2px 10px #888888;
-        border-radius: 5px;
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-        margin: auto;
-        margin-bottom: 40px;
-        margin-top: 40px;
-        min-width: 250px;
-        padding-top: 5px;
-        transition: width 1s;
-    }
-    .incomesBtn {
-
-        background-color: #38E2A9;
-
-    }
-    .expenssesBtn {
-
-        background-color: #D93E48;
-
-    }
-    .FuturepBtn {
-        background-color: #609BEB;
-    }
-    .actionBtn:hover {
-        width:280px;
-        color: white;
-        text-decoration: none;
-    }
-    .myContainer {
-        color: white;
-        font-size: 1.5rem;
-
-       @* background-image: linear-gradient(to bottom right,red, blue );
-        background-position: top;
-        background-size: 100% 113px;
-        background-repeat: no-repeat;*@
-    }
-    .userName {
-        font-weight: bold;
-        font-size: 2rem;
-        margin-bottom: 40px;
-        text-align: left;
-        padding-top:30px;
-    }
-    .buttons {
 
 
-    }
-    .userImg {
-        padding-top: 40px;
-        padding-bottom:30px;
-        text-align: left;
-    }
-    .content {
-        text-align:left;
-
-    }
-    .yellowColor {
-       color: #FFE048;
-    }
-</style>
-
-<div class="myContainer container">
+<div class="myAccountContainer container">
     <div class="row">
         <div class="col-sm">
             <span class="userImg"> <i class="far fa-user-circle fa-10x"></i> </span>
             <h1 class="userName">@ViewBag.Username.ToUpper() </h1>
-            <div class="content">
+            <div class="contentAccount">
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.Balance) is:  @ViewBag.Balance₪
 
                 <br /> <br/>
@@ -118,6 +47,7 @@
     </div>
     </div>
 </div>
+
 
 <script>
 
