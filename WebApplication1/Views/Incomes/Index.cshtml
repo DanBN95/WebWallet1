@@ -8,7 +8,14 @@
 
     <h1 class="titleExIn">Incomes</h1>
 
-    
+    <form method="get" asp-action="Index">
+        <p>
+            <input type="search" placeholder="Type Open Text For Description ..." value="@ViewData["AccountDetails"]" name="AccountSearch" style="width:500px" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-action="Index">Get All Incomes</a>
+        </p>
+    </form>
+
     <table class="table">
         <thead class="myThead">
             <tr>
@@ -47,7 +54,7 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit colorWhite"></i></a> |
-                  
+
                         <a asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-calendar-times colorWhite"></i></a>
                     </td>
                 </tr>
@@ -56,4 +63,5 @@
     </table>
 </div>
 
+<script src ="~/js/site.js"></script>
 <a class="addBtnExIn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyleExIn"></i> Add New Income</a>

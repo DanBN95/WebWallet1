@@ -2,3 +2,12 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function Sort(value) {
+    console.log("Hello World");
+}
+
+document.addEventListener('click', () => {
+    const map = new Map();
+    
+})
