@@ -13,22 +13,35 @@
         font-size:2rem;
 
     }
+    .graphCanvas{
+        width:1000px;
+        height:300px;
+        color:green;
+    }
 </style>
 
 
 <div class="myContainer">
-    <p>
+   
+    <p class="homeText">
         Welcome Back,
     </p>
-    <div class="row text-center padding">
-       <a asp-controller="Incomes" asp-action="Index">My Incomes</a>
-       <a asp-controller="Expenses" asp-action="Index">My Expenses</a>
-       <a>My Future Payments</a>
+    <div class="row">
+        <div class="col-sm">
+            <a class="homeBtn incomesBtn" asp-controller="Incomes" asp-action="Index">My Incomes</a>
+        </div>
+        <div class="col-sm">
+            <a class="homeBtn expenssesBtn" asp-controller="Expenses" asp-action="Index">My Expenses</a>
+        </div>
+        <div class="col-sm">
+            <a class="homenBtn FuturepBtn">My Future Payments</a>
+            </div>
 
-           
+
+        </div>
+
     </div>
 
-</div>
 
    
 

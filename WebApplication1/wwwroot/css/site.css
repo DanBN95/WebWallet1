@@ -7,6 +7,77 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+/*Account prifile*/
+.actionBtn {
+    font-size: 1.5rem;
+    color: white;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    width: 40%;
+    border: 1px solid gray;
+    box-shadow: 2px 2px 10px black;
+    border-radius: 5px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-bottom: 40px;
+    margin-top: 40px;
+    min-width: 250px;
+    padding-top: 5px;
+    transition: width 1s;
+}
+
+.incomesBtn {
+    background-color: #38E2A9;
+}
+
+.expenssesBtn {
+    background-color: #D93E48;
+}
+
+.FuturepBtn {
+    background-color: #609BEB;
+}
+
+.actionBtn:hover {
+    width: 280px;
+    color: white;
+    text-decoration: none;
+}
+
+.myAccountContainer {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.userName {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    text-align: left;
+    padding-top: 30px;
+}
+
+.buttons {
+    padding-top:40px;
+}
+
+.userImg {
+    padding-top: 40px;
+    padding-bottom: 30px;
+    text-align: left;
+}
+
+.contentAccount {
+    text-align: left;
+}
+
+.yellowColor {
+    color: #FFE048;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -17,12 +88,210 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.mynav{
+
+    font-weight:bold;
+    background-color:white;
+   
+}
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    /*color: #fff;*/
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
+/*Home*/
+.homeBtn {
+    font-size: 1.5rem;
+    color: white;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    width: 33%;
+    border: 1px solid gray;
+    box-shadow: 2px 2px 10px black;
+    border-radius: 5px;
+    height:100px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    margin-left:10px;
+    margin-right:10px;
+    margin-top: 40px;
+    min-width: 250px;
+    padding-top: 5px;
+  
+}
+
+.homeText{
+    font-size:2rem;
+    color:white;
+}
+
+
+
+/*login-register*/
+.Logintitle {
+    padding-top: 30px;
+    font-size: 2rem;
+}
+
+.loginContainer {
+    font-size: 1.5rem;
+    background-image: linear-gradient(to bottom right,#7707C1, #4C1185 );
+    border-radius: 20px;
+    color: white;
+    box-shadow: 5px 10px 18px #888888;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.registerComment {
+    font-size: 1.2rem;
+    margin: 40px;
+    padding-bottom: 20px;
+}
+
+.loginbtn {
+    color: white;
+    font-weight: bold;
+    background-color: #2DCCB0;
+    font-size: 1rem;
+    border-radius: 40px;
+    width: 200px;
+    height: 50px;
+    margin-top: 100px;
+    border: none;
+}
+
+.myInput {
+    width: 80%;
+    border-radius: 10px;
+    background-color: #E8F0FE;
+    height: 60px;
+    border: none;
+}
+
+.errorLogin {
+    color: #FFE048;
+    font-size: 0.9rem;
+}
+
+.titleLogin {
+    font-weight: bold;
+    color: white
+}
+
+.inputContainer {
+    margin-top: 50px;
+}
+
+.logo {
+  
+    padding-top: 10px;
+    color: #FFE048 !important;
+    font-weight: bold;
+}
+.logonav {
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 5px black;
+    padding-top: 10px;
+    color: #FFE048 !important;
+    font-weight: bold;
+}
+
+/*Incomes Expenses tables*/
+.myThead {
+    font-weight: bold;
+    color: white;
+}
+
+.titleExIn {
+    color: white;
+    text-shadow: 2px 2px purple;
+    font-size: 3rem;
+    padding-top: 40px;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.containerExIn {
+    font-size: 1.2rem;
+    border-radius: 20px;
+    box-shadow: 2px 2px 18px black;
+    text-align: center;
+    margin-top: 50px;
+}
+.bgExpenses {
+    background-image: linear-gradient(to bottom right,#D93E48, #d67e82);
+}
+.bgIncomes {
+    background-image: linear-gradient(to bottom right, #11a36d, #8fe0c1);
+}
+
+.myTbody {
+    font-size: 1rem;
+    color: white;
+}
+
+.addBtnExIn {
+    padding-top: 40px;
+    color: white;
+    font-size: 1.3rem;
+}
+
+.addBtnExIn:hover {
+        color: #37E9A8;
+        text-decoration: underline;
+ }
+
+.colorWhite {
+    color: white;
+}
+
+.iconStyleExIn {
+    color: #FFE048;
+}
+
+
+
+/*create income expense*/
+.inputExIn {
+    width:100%;
+    border-radius: 10px;
+    background-color: #E8F0FE;
+    height: 60px;
+    border: none;
+    font-size:1.5rem;
+}
+.formTitles{
+    font-size:1.4rem;
+    color:white;
+}
+
+.createBtn {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #2DCCB0;
+    margin-bottom:20px;
+    color:white;
+    width:200px;
+    height:80px;
+}
+.backToList {
+    color: #FFE048;
+    font-size: 1.3rem;
+}
+    .backToList:hover {
+        color: #FFE048;
+    }
+
+
+
+
+
+
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -51,6 +320,7 @@ button.accept-policy {
   line-height: inherit;
 }
 
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -64,6 +334,7 @@ body {
 }
 .footer {
   position: absolute;
+  background-color:white;
   bottom: 0;
   width: 100%;
   white-space: nowrap;

@@ -6,61 +6,6 @@
 }
 
 
-<style>
-    .Logintitle{
-        padding-top:30px; 
-        font-size:2rem;
-    }
-    .loginContainer {
-        font-size: 1.5rem;
-        background-image: linear-gradient(to bottom right,#7707C1, #4C1185 );
-        border-radius: 20px;
-        color: white;
-        box-shadow: 5px 10px 18px #888888;
-        text-align: center;
-        margin-top: 50px;
-    }
-    .registerComment {
-        font-size: 1.2rem;
-        margin: 40px;
-        padding-bottom: 20px;
-    }
-    .loginbtn {
-        color: white;
-        font-weight:bold;
-        background-color: #2DCCB0;
-        font-size:1rem;
-        border-radius: 40px;
-        width:200px;
-        height:50px;
-        margin-top:100px;
-        border: none;
-    }
-    .myInput {
-        width: 80%;
-        border-radius: 10px;
-        background-color: #E8F0FE;
-        height:60px;
-        border:none;
-        
-    }
-    .error {
-        color: #FFE048;
-        font-size:0.9rem;
-    }
-    .title{
-        font-weight:bold;
-        color:white
-    }
-    .inputContainer{
-        margin-top:50px;
-    }
-    .logo {
-        padding-top:10px;
-        color: #FFE048;
-        font-weight:bold;
-    }
-</style>
 <div class="loginContainer">
     <div class="logo">
         WebWallet <i class="fas fa-coins"></i>
@@ -74,18 +19,18 @@
             <form asp-action="Login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="inputContainer">
-                    <label asp-for="Email" class="control-label title"></label>
+                    <label asp-for="Email" class="control-label titleLogin"></label>
                     <br />
                     <input asp-for="Email" class="myInput" />
                     <br />
-                    <span asp-validation-for="Email" class="error"></span>
+                    <span asp-validation-for="Email" class="errorLogin"></span>
                 </div>
                 <div class="inputContainer">
-                    <label asp-for="Password" class="control-label title"></label>
+                    <label asp-for="Password" class="control-label titleLogin"></label>
                     <br />
                     <input asp-for="Password" class="myInput" />
                     <br />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span asp-validation-for="Password" class="errorLogin"></span>
                 </div>
                 <div class="form-group">
                     <input class="btn loginbtn" type="submit" value="Login" />

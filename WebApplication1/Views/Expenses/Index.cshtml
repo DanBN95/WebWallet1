@@ -3,55 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-<style>
-    .myThead {
-        font-weight: bold;
-        color: white;
-    }
 
-    .title {
-        color: white;
-        text-shadow: 2px 2px purple;
-        font-size: 3rem;
-        padding-top: 40px;
-        margin-bottom: 40px;
-        font-weight: bold;
-    }
 
-    .myContainer {
-        font-size: 1.5rem;
-        background-image: linear-gradient(to bottom right,#37E9A8, #11a36d);
-        border-radius: 20px;
-        box-shadow: 2px 2px 18px #888888;
-        text-align: center;
-        margin-top: 50px;
-    }
-
-    .myTbody {
-        font-size: 1.2rem;
-        color: white;
-    }
-
-    .addBtn {
-        padding-top:40px;
-        color: white;
-        font-size:1.3rem;
-    }
-        .addBtn:hover {
-            color: #37E9A8;
-            text-decoration:underline;
-        }
-
-    .colorWhite{
-        color:white;
-    }
-    .iconStyle {
-        color: #FFE048;
-    }
-
-</style>
-<div class="myContainer">
-    <h1 class="title">Expenses</h1>
+<div class="containerExIn bgExpenses">
+    <h1 class="titleExIn">Expenses</h1>
 
 
     <table class="table">
@@ -103,6 +58,6 @@
 
 </div>
 
-    <a class="addBtn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyle"></i> Add New Expense</a>
+    <a class="addBtnExIn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyleExIn"></i> Add New Expense</a>
 
 
