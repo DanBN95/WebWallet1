@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Incomes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var account = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
@@ -34,6 +34,27 @@ namespace WebApplication1.Controllers
             
             catch { return RedirectToAction("PageNotFound", "Home"); }
    
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string AccountSearch)
+        {
+            ViewData["AccountDetails"] = AccountSearch;
+
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            try
+            {
+                var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id).ToList();
+                if (!String.IsNullOrEmpty(AccountSearch))
+                {
+                    incomes = incomes.Where(i => i.Description.Contains(AccountSearch)).ToList();
+                }
+                return View(incomes);
+            }
+
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Incomes/Details/5
