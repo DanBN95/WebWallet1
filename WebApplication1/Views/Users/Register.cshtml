@@ -65,7 +65,9 @@
         Already registered?<a asp-action="Login">Click Here</a>to Login
     </div>
 </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Styles {
+    <link rel="stylesheet" href="~/css/LoginRegister.css" />
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

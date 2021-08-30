@@ -1,25 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<style>
-    .myContainer {
-        margin-top:50px;
-      
-    }
-
-    .myContainer a{
-        width:33%;
-        color:white;
-        font-size:2rem;
-
-    }
-    .graphCanvas{
-        width:1000px;
-        height:300px;
-        color:green;
-    }
-</style>
-
 
 <div class="myContainer">
    
@@ -41,6 +22,15 @@
         </div>
 
     </div>
+
+<div id="myDiv"></div>
+
+@section Scripts{ 
+
+<script src="~/js/coinLore.js"></script>
+}
+
+
 
 
    

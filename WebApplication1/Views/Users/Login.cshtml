@@ -12,7 +12,7 @@
     </div>
 
     <h1 class="Logintitle">Please login to your account</h1>
-  
+
 
     <div>
         <div class="col-12">
@@ -49,8 +49,13 @@
     </div>
 </div>
 
+@section Styles {
+
+    <link rel="stylesheet" href="~/css/LoginRegister.css" />
+}
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-  
+
 
 }
