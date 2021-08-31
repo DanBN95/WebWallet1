@@ -14,6 +14,7 @@ namespace WebApplication1.Controllers
     public class IncomesController : Controller
     {
         private readonly WebApplication1Context _context;
+        private bool[] flag = new bool[] { false, false, false, false };
 
         public IncomesController(WebApplication1Context context)
         {
@@ -37,11 +38,14 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string AccountSearch, string sortinginc)
+        public async Task<IActionResult> Index(string AccountSearch, string sortby,string check)
         {
             ViewData["AccountDetails"] = AccountSearch;
-            ViewData["SortingBy"] = string.IsNullOrEmpty(sortinginc) ? "" : sortinginc;
- 
+            ViewData["SortingByAmount"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDescription"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByCategory"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDate"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+
             var account = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                           select a;
@@ -49,19 +53,19 @@ namespace WebApplication1.Controllers
             {
                 var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id).ToList();
 
-                switch(sortinginc)
+                switch(sortby)
                 {
-                    case "Date":
-                        incomes = incomes.OrderBy(i => i.Date).ToList();
-                        break;
                     case "Amount":
-                        incomes = incomes.OrderBy(i => i.Amount).ToList();
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByAmount"].ToString()) ? incomes.OrderBy(i => i.Amount).ToList() : incomes.OrderByDescending(i => i.Amount).ToList();
                         break;
                     case "Description":
-                        incomes = incomes.OrderBy(i => i.Description).ToList();
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByDescription"].ToString()) ? incomes.OrderBy(i => i.Description).ToList() : incomes.OrderByDescending(i => i.Description).ToList();
                         break;
                     case "Category":
-                        incomes = incomes.OrderBy(i => i.Category).ToList();
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByCategory"].ToString()) ? incomes.OrderBy(i => i.Category).ToList() : incomes.OrderByDescending(i => i.Category).ToList();
+                        break;
+                    case "Date":
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByDate"].ToString()) ? incomes.OrderBy(i => i.Date).ToList() : incomes.OrderByDescending(i => i.Date).ToList();
                         break;
                     default:
                         incomes = incomes.OrderByDescending(i => i.Date).ToList();
