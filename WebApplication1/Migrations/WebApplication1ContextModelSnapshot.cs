@@ -19,21 +19,6 @@ namespace WebApplication1.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AccountFuturePayment", b =>
-                {
-                    b.Property<int>("AccountsListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FuturePaymentListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AccountsListId", "FuturePaymentListId");
-
-                    b.HasIndex("FuturePaymentListId");
-
-                    b.ToTable("AccountFuturePayment");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.Account", b =>
                 {
                     b.Property<int>("Id")
@@ -94,7 +79,11 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
@@ -103,10 +92,10 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("int");
 
-                    b.Property<double>("GoalCost")
+                    b.Property<double>("Goalvalue")
                         .HasColumnType("float");
 
-                    b.Property<double>("PaymentCost")
+                    b.Property<double>("SinglePaymentvalue")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("StartDate")
@@ -115,7 +104,15 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("lastpayment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("nextpayment")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.ToTable("FuturePayment");
                 });
@@ -182,25 +179,21 @@ namespace WebApplication1.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("AccountFuturePayment", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Models.FuturePayment", null)
-                        .WithMany()
-                        .HasForeignKey("FuturePaymentListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WebApplication1.Models.Expenses", b =>
                 {
                     b.HasOne("WebApplication1.Models.Account", "Account")
                         .WithMany("ExpensesList")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.FuturePayment", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Account", "Account")
+                        .WithMany("FuturePaymentList")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -222,6 +215,8 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.Account", b =>
                 {
                     b.Navigation("ExpensesList");
+
+                    b.Navigation("FuturePaymentList");
 
                     b.Navigation("IncomesList");
                 });

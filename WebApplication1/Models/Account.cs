@@ -14,9 +14,10 @@ namespace WebApplication1.Models
         public double SavingBalance { get; set; } = 0;
         public List<Incomes> IncomesList { get; set; }
         public List<Expenses> ExpensesList { get; set; }
-
         public List<FuturePayment> FuturePaymentList { get; set; } = null;
 
+        //public int BranchId { get; set; }
 
+        
     }
 }

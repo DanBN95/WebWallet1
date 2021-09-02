@@ -14,7 +14,7 @@
             <div class="contentAccount">
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.Balance) is:  @ViewBag.Balance₪
 
-                <br /> <br/>
+                <br /> <br />
 
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.SavingBalance) is: @ViewBag.SavingBalance₪
             </div>
@@ -32,40 +32,35 @@
                 </div>
             </div>*@
 
-    <div class="buttons col-sm">
-        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
-            <i class="fas fa-plus-circle"></i> Add Income
-        </a>
+        <div class="buttons col-sm">
+            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
+                <i class="fas fa-plus-circle"></i> Add Income
+            </a>
 
-        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
-            <i class="fas fa-minus-circle"></i>Add Expense
-        </a>
+            <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
+                <i class="fas fa-minus-circle"></i>Add Expense
+            </a>
 
-        <a class="FuturepBtn actionBtn">
-            <i class="fas fa-user-shield"></i>Add Future Payment
-        </a>
-    </div>
+            <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
+                <i class="fas fa-user-shield" ></i>Add Future Payment
+            </a>
+        </div>
     </div>
 </div>
 
 
 <script>
-
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('add_type').addEventListener('input', buildDescription);
     });
-
     function buildDescription(ev) {
         let select = ev.target;
         console.log(select);
     }
-
     function getSelectedSign() {
-
         var sign = document.getElementById("description");
         console.log(sign.nodeValue);
         //if (sign == "+") {
-
         //}
     }
 </script>

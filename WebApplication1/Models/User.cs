@@ -33,5 +33,7 @@ namespace WebApplication1.Models
         public string Password { get; set; }
 
         public UserType Type { get; set; } = UserType.Client;
+
+        
     }
 }

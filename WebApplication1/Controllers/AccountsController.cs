@@ -23,15 +23,17 @@ namespace WebApplication1.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            var account = from a in _context.Account
+            
+
+            var accounts = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                           select a;
 
-            if (account.Count() > 0)
+            if (accounts.Count() > 0)
             {
-                ViewBag.Username = account.First().Name;
-                ViewBag.Balance = account.First().Balance;
-                ViewBag.SavingBalance = account.First().SavingBalance;
+                ViewBag.Username = accounts.First().Name;
+                ViewBag.Balance = accounts.First().Balance;
+                ViewBag.SavingBalance = accounts.First().SavingBalance;
             }
             else
             {
@@ -87,6 +89,97 @@ namespace WebApplication1.Controllers
             }
             return View(account);
         }
+      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Updatesaving()
+        {
+            Console.WriteLine("amirrrr");
+            DateTime today = DateTime.Today;
+            var today_payments = _context.FuturePayment.Where(i => i.nextpayment.CompareTo(today)<=0).ToArray();
+           
+            for (int i=0;i< today_payments.Count();i++)
+            {
+                var account = from a in _context.Account
+                              where a.UserId==today_payments[i].AccountId
+                              select a;
+                if (account.Count() > 0)
+                {
+                    DateTime end_date = today_payments[i].EndDate;
+                    DateTime next_date = today;
+                    while (today_payments[i].nextpayment.CompareTo(today) <= 0)
+                    {
+                        double result = account.First().Balance - today_payments[i].SinglePaymentvalue;
+                        if (result >= 0)
+                        {
+                            Expenses exp = new Expenses();
+                            exp.AccountId = today_payments[i].AccountId;
+                            exp.Amount = today_payments[i].SinglePaymentvalue;
+                            exp.Description = today_payments[i].Description;
+                            exp.Category = ExCategory.Other;
+                            exp.Date = today;
+                            _context.Add(exp);
+                            account.First().ExpensesList = new List<Expenses>();
+                            account.First().ExpensesList.Add(exp);
+                            account.First().Balance = result;
+                            account.First().SavingBalance += today_payments[i].SinglePaymentvalue;
+                            today_payments[i].lastpayment = today;
+                            var fre = today_payments[i].Frequency;
+                            switch (fre)
+                            {
+                                case (Frequency)0:
+                                   next_date = next_date.AddDays(1);
+                                    break;
+                                case (Frequency)1:
+                                    next_date =  next_date.AddDays(7);
+                                    break;
+                                case (Frequency)2:
+                                    next_date = next_date.AddMonths(1);
+                                    break;
+                                case (Frequency)3:
+                                    next_date = next_date.AddMonths(12);
+                                    break;
+                            }
+
+                            if (next_date.CompareTo(end_date) <= 0)
+                            {
+                                today_payments[i].nextpayment = next_date;
+                               
+                                _context.Update(today_payments[i]);
+                                Console.WriteLine("amirrrr");
+
+                            }
+                            else
+                            {
+                                _context.FuturePayment.Remove(today_payments[i]);
+
+                                Console.WriteLine("yossi");
+                                //delete payment
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            ViewBag.LowBalanceError = "Exception in balance!";
+                            continue;
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+            }
+
+
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+        }
+
 
         // GET: Accounts/Edit/5
         //public async Task<IActionResult> Edit(int? id)
@@ -172,5 +265,5 @@ namespace WebApplication1.Controllers
         //{
         //    return _context.Account.Any(e => e.Id == id);
         //}
-    }
+    
 }

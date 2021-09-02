@@ -1,7 +1,51 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿// Write your JavaScript code.
+//$(document).ready(function () {
+//    $('#myTable').DataTable({
+//        "scrollY": "450px",
+//        "scrollCollapse": true,
+//        "paging": true
+//    });
+//});
 
-// Write your JavaScript code.
+function setForm(value) {
+
+    if (value == 'form1') {
+        document.getElementById('form1').style = 'display:block;';
+        document.getElementById('form2').style = 'display:none;';
+    }
+    else {
+
+        document.getElementById('form2').style = 'display:block;';
+        document.getElementById('form1').style = 'display:none;';
+    }
+
+}
+
+        function startTime()
+    {
+         var today = new Date();
+            var day = today.getDate().toString();
+            var m = today.getMonth().toString();
+            var y = today.getFullYear().toString();
+            day = checkTime(day);
+            m = checkTime(m);
+            document.getElementById('time').innerHTML = day+"."+m+"."+y  ;
+            t=setTimeout('startTime()',50000); 
+    }
+
+    function checkTime(i)
+    {
+        if (i<10)
+    {
+        i = "0" + i; 
+    }
+    return i; 
+}
+
+function getdate() {
+    var today = new Date();
+    return today;
+}
 
 function Sort(value) {
     console.log("Hello World");

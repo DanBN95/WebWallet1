@@ -13,6 +13,7 @@ namespace WebApplication1.Models
         Health,
         Sport,
         Investment,
+        Savings,
         Other
     }
     public class Expenses

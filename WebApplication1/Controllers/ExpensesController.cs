@@ -78,14 +78,14 @@ namespace WebApplication1.Controllers
                 {
                     string user_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
                     expenses.AccountId = Int32.Parse(user_id);
-
-                    _context.Add(expenses);
-                    account.First().ExpensesList = new List<Expenses>();
-                    account.First().ExpensesList.Add(expenses);
-
                     double result = account.First().Balance - expenses.Amount;
                     if (result >= 0)
                     {
+                        _context.Add(expenses);
+                         account.First().ExpensesList = new List<Expenses>();
+                         account.First().ExpensesList.Add(expenses);
+
+                    
                         account.First().Balance = result;
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index), "Accounts");
