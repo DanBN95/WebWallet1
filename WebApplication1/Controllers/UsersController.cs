@@ -50,20 +50,8 @@ namespace WebApplication1.Controllers
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
-
                     var u = _context.User.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
 
-                    
-
-                    //  Creating new Account
-                    //Account account = new Account();
-                    //account.UserId = user.Id;
-                    //account.Name = user.Username;
-                    //account.ExpensesList = new List<Expenses>();
-                    //account.IncomesList = new List<Incomes>();
-                    //account.FuturePaymentesList = new List<FuturePayment>();
-                    //_context.Account.Add(account);
-                    //_context.SaveChanges();
                     Signin(u);
                     return RedirectToAction("Create", "Accounts");
                 }

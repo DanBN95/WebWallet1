@@ -197,35 +197,39 @@ namespace WebApplication1.Controllers
         //    return View(incomes);
         //}
 
-        // GET: Incomes/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Incomes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var incomes = await _context.Incomes
-        //        .Include(i => i.Account)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (incomes == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var incomes = await _context.Incomes
+                .Include(i => i.Account)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(incomes);
-        //}
+            return View(incomes);
+        }
 
-        //// POST: Incomes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var incomes = await _context.Incomes.FindAsync(id);
-        //    _context.Incomes.Remove(incomes);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Incomes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var incomes = await _context.Incomes.FindAsync(id);
+            var account = from a in _context.Account
+                          where a.UserId == incomes.AccountId
+                          select a;
+            account.First().Balance -= incomes.Amount;
+            _context.Incomes.Remove(incomes);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool IncomesExists(int id)
         //{

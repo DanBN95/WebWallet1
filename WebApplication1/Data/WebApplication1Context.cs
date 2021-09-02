@@ -21,5 +21,9 @@ namespace WebApplication1.Data
         public DbSet<WebApplication1.Models.Account> Account { get; set; }
 
         public DbSet<WebApplication1.Models.Incomes> Incomes { get; set; }
+
+        public DbSet<WebApplication1.Models.FuturePayment> FuturePayment { get; set; }
+
+        public DbSet<WebApplication1.Models.Branch> Branch { get; set; }
     }
 }

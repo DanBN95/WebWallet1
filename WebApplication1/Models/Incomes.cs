@@ -10,6 +10,7 @@ namespace WebApplication1.Models
         Salary,
         RealEstate,
         Apps,
+        SavingAccount,
         Other
     }
     public class Incomes
