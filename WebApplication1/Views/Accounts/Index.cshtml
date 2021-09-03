@@ -5,7 +5,6 @@
 }
 
 
-
 <div class="myAccountContainer container">
     <div class="row">
         <div class="col-sm">
@@ -14,40 +13,119 @@
             <div class="contentAccount">
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.Balance) is:  @ViewBag.Balance₪
 
-                <br /> <br/>
+                <br /> <br />
 
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.SavingBalance) is: @ViewBag.SavingBalance₪
             </div>
         </div>
 
+        <div class="buttons col-sm">
+            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
+                <i class="fas fa-plus-circle"></i> Add Income
+            </a>
 
-        @* <div class="container-fluid padding">
-                <div class="row padding">
-                    <div class="col-lg-6">
-                        <a asp-controller="Incomes" asp-action="Index">Incomes</a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a asp-controller="Expenses" asp-action="Index">Expenses</a>
-                    </div>
-                </div>
-            </div>*@
+            <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
+                <i class="fas fa-minus-circle"></i>Add Expense
+            </a>
 
-    <div class="buttons col-sm">
-        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
-            <i class="fas fa-plus-circle"></i> Add Income
-        </a>
-
-        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
-            <i class="fas fa-minus-circle"></i>Add Expense
-        </a>
-
-        <a class="FuturepBtn actionBtn">
-            <i class="fas fa-user-shield"></i>Add Future Payment
-        </a>
-    </div>
+            <a class="FuturepBtn actionBtn">
+                <i class="fas fa-user-shield"></i>Add Future Payment
+            </a>
+        </div>
     </div>
 </div>
 
+<p style="font-size:1.2rem; color:antiquewhite; padding-top:20px;">Visit us in your branches</p>
+<div id="map" style="width:400px; height:400px;"></div>
+
+
+<p class="invenstTitle yellowColor">Want to make a great invenst?</p>
+
+<button class="mybtn apiBtn yellowColor">check the current value of virtual coin</button>
+<button class="myclose hidden apiBtn yellowColor">close</button>
+<div id="card" class="row"></div>
+
+
+
+
+@section Styles {
+
+    <link rel="stylesheet" href="~/css/Profile.css" />
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.mybtn').on('click',function () {
+                $.ajax({
+                    url: "https://api.coinlore.net/api/tickers/",
+                    type: "GET",
+                    success: function (result) {
+                        $(".mybtn").addClass("hidden");
+                        $(".myclose").removeClass("hidden");
+                        $('#card').removeClass("hidden");
+                        var data = result["data"];
+                        for (var i = 0; i < data.length; i++) {
+                            var template =
+                                '<div class="card mycard"> <i class="fab fa-bitcoin yellowColor"></i> <div class="card-body"> <h5 class="card-title">' + data[i].name +
+                                '</h5> <p class="card-text">Coin Price: ' + data[i].price_usd +
+                                '</p> <p class="card-text">  Change in last 24 hours: ' + data[i].percent_change_24h +
+                                '</p> </div> </div>';
+                            $('#card').append(template);
+                        }
+                        console.log(result);
+                        console.log(result.data.length);
+                        console.log(result["data"].length);
+                        console.log(template);
+
+
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            $('.myclose').on('click',function () {
+
+                $("#card").addClass("hidden");
+                $(".mybtn").removeClass("hidden");
+                $(".myclose").addClass("hidden");
+
+            })
+        })
+    </script>
+
+    <script type="text/javascript">
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: { lat: 32.079118664964334, lng: 34.76613117255147 },
+
+            });
+
+            $.get("@Url.Action("GetAllLocation","Accounts")", function (data, status) {
+                var marker = [];
+
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i].savingBalance);
+                    marker[i] = new google.maps.Marker({
+
+                        position: { lat: data[i].balance, lng: data[i].savingBalance },
+                        map: map
+                    });
+                }
+            })
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFonRwGXpwNTCmNyqTSenZz7Q12S3r6i0&callback=initMap" defer></script>
+
+
+}
 
 <script>
 
@@ -69,3 +147,7 @@
         //}
     }
 </script>
+
+
+
+
