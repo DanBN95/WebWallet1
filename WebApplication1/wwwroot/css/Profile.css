@@ -1,0 +1,58 @@
+﻿.hidden {
+    display: none;
+}
+
+.mycard {
+    margin: 5px;
+    background: #be81ea;
+    color: white;
+    width: 350px;
+}
+
+.invenstTitle {
+    padding-top: 40px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.apiBtn {
+    background: #be81ea;
+    font-size: 1.3rem;
+    border-radius: 10px;
+    border: 2px solid #40056b;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+.myAccountContainer {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.userName {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    text-align: left;
+    padding-top: 30px;
+}
+
+.buttons {
+    padding-top: 40px;
+}
+
+.userImg {
+    padding-top: 40px;
+    padding-bottom: 30px;
+    text-align: left;
+}
+
+.contentAccount {
+    text-align: left;
+}
+.branchTitle{
+    font-size: 1.2rem;
+    color: antiquewhite;
+    font-weight: bold;
+    padding-top: 20px;
+}

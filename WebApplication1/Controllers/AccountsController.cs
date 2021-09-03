@@ -13,18 +13,24 @@ namespace WebApplication1.Controllers
 {
     public class AccountsController : Controller
     {
+     
+
         private readonly WebApplication1Context _context;
 
         public AccountsController(WebApplication1Context context)
         {
             _context = context;
         }
+        public JsonResult GetAllLocation()
+        {
+            var data = _context.Account.ToList();
+            return Json(data);
+        }
 
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            
-
+        
             var accounts = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                           select a;
@@ -40,8 +46,13 @@ namespace WebApplication1.Controllers
                 Console.WriteLine("Problem with Cookie!");
             }
             return View();
-        
-    }
+
+        }
+
+
+
+       
+
 
         // GET: Accounts/Details/5
         //public async Task<IActionResult> Details(int? id)
