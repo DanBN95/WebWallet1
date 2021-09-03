@@ -16,25 +16,23 @@
         </p>
     </form>
 
-    <table class="table">
+    <table id="myTable" class="table">
         <thead class="myThead">
             <tr>
                 <th>
-                    <a asp-action="Index" name="sortinginc" asp-route-sortinginc="@ViewData["SortingBy"]">
-                        @Html.DisplayNameFor(model => model.Amount)
+                    <a asp-action="Index" asp-route-check="@ViewData["SortingByAmount"]"  asp-route-sortby=@Html.DisplayNameFor(model => model.Amount)>Amount</a>
+                </th>
+                <th>
+                    <a asp-action="Index"  asp-route-check="@ViewData["SortingByDescription"]" asp-route-sortby="@Html.DisplayNameFor(model => model.Description)">Description</a>
+                </th>
+                <th>
+                    <a asp-action="Index"  asp-route-check="@ViewData["SortingByCategory"]" asp-route-sortby="@Html.DisplayNameFor(model => model.Category)">
+                       Category
                     </a>
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">@Html.DisplayNameFor(model => model.Description)</a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">
-                        @Html.DisplayNameFor(model => model.Category)
-                    </a>
-                </th>
-                <th>
-                    <a asp-action="Index" asp-route-sortinginc="@ViewData["SortingBy"]">
-                        @Html.DisplayNameFor(model => model.Date)
+                    <a asp-action="Index"  asp-route-check="@ViewData["SortingByDate"]" asp-route-sortby="@Html.DisplayNameFor(model => model.Date)">
+                        Date
                     </a>
                 </th>
                 <th>

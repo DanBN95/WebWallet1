@@ -1,4 +1,4 @@
-﻿// Write your JavaScript code.
+
 //$(document).ready(function () {
 //    $('#myTable').DataTable({
 //        "scrollY": "450px",
@@ -61,3 +61,5 @@ document.addEventListener('click', () => {
     const map = new Map();
     
 })
+
+
