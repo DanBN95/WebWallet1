@@ -14,6 +14,7 @@ namespace WebApplication1.Controllers
     public class IncomesController : Controller
     {
         private readonly WebApplication1Context _context;
+        private bool[] flag = new bool[] { false, false, false, false };
 
         public IncomesController(WebApplication1Context context)
         {
@@ -21,7 +22,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET: Incomes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var account = from a in _context.Account
                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
@@ -34,6 +35,51 @@ namespace WebApplication1.Controllers
             
             catch { return RedirectToAction("PageNotFound", "Home"); }
    
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string AccountSearch, string sortby,string check)
+        {
+            ViewData["AccountDetails"] = AccountSearch;
+            ViewData["SortingByAmount"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDescription"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByCategory"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDate"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            try
+            {
+                var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id).ToList();
+
+                switch(sortby)
+                {
+                    case "Amount":
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByAmount"].ToString()) ? incomes.OrderBy(i => i.Amount).ToList() : incomes.OrderByDescending(i => i.Amount).ToList();
+                        break;
+                    case "Description":
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByDescription"].ToString()) ? incomes.OrderBy(i => i.Description).ToList() : incomes.OrderByDescending(i => i.Description).ToList();
+                        break;
+                    case "Category":
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByCategory"].ToString()) ? incomes.OrderBy(i => i.Category).ToList() : incomes.OrderByDescending(i => i.Category).ToList();
+                        break;
+                    case "Date":
+                        incomes = string.IsNullOrEmpty(ViewData["SortingByDate"].ToString()) ? incomes.OrderBy(i => i.Date).ToList() : incomes.OrderByDescending(i => i.Date).ToList();
+                        break;
+                    default:
+                        incomes = incomes.OrderByDescending(i => i.Date).ToList();
+                        break;
+                }
+
+                if (!String.IsNullOrEmpty(AccountSearch))
+                {
+                    incomes = incomes.Where(i => i.Description.Contains(AccountSearch)).ToList();
+                }
+                return View(incomes);
+            }
+
+            catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
         // GET: Incomes/Details/5
@@ -151,35 +197,39 @@ namespace WebApplication1.Controllers
         //    return View(incomes);
         //}
 
-        // GET: Incomes/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Incomes/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var incomes = await _context.Incomes
-        //        .Include(i => i.Account)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (incomes == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var incomes = await _context.Incomes
+                .Include(i => i.Account)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(incomes);
-        //}
+            return View(incomes);
+        }
 
-        //// POST: Incomes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var incomes = await _context.Incomes.FindAsync(id);
-        //    _context.Incomes.Remove(incomes);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Incomes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var incomes = await _context.Incomes.FindAsync(id);
+            var account = from a in _context.Account
+                          where a.UserId == incomes.AccountId
+                          select a;
+            account.First().Balance -= incomes.Amount;
+            _context.Incomes.Remove(incomes);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         //private bool IncomesExists(int id)
         //{

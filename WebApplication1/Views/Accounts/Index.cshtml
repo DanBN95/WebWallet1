@@ -24,12 +24,30 @@
                 <i class="fas fa-plus-circle"></i> Add Income
             </a>
 
+
+        @* <div class="container-fluid padding">
+                <div class="row padding">
+                    <div class="col-lg-6">
+                        <a asp-controller="Incomes" asp-action="Index">Incomes</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a asp-controller="Expenses" asp-action="Index">Expenses</a>
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="buttons col-sm">
+            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
+                <i class="fas fa-plus-circle"></i> Add Income
+            </a>
+
             <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
                 <i class="fas fa-minus-circle"></i>Add Expense
             </a>
 
-            <a class="FuturepBtn actionBtn">
-                <i class="fas fa-user-shield"></i>Add Future Payment
+            <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
+                <i class="fas fa-user-shield" ></i>Add Future Payment
+
             </a>
         </div>
     </div>
@@ -128,22 +146,17 @@
 }
 
 <script>
-
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('add_type').addEventListener('input', buildDescription);
     });
-
     function buildDescription(ev) {
         let select = ev.target;
         console.log(select);
     }
-
     function getSelectedSign() {
-
         var sign = document.getElementById("description");
         console.log(sign.nodeValue);
         //if (sign == "+") {
-
         //}
     }
 </script>

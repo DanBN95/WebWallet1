@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-    public enum Type
+    public enum Types
     {
         Saving,
         ProductGoal
@@ -20,15 +21,27 @@ namespace WebApplication1.Models
     public class FuturePayment
     {
         public int Id { get; set; }
-        public Type Type { get; set; }
+        public Types Type { get; set; }
+        [Required]
         public String Description { get; set; }
-        public double GoalCost { get; set; }
-        public double PaymentCost { get; set; }
+        public double Goalvalue { get; set; }
+        public double SinglePaymentvalue { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
+
+        [Required] 
         public DateTime EndDate { get; set; }
+
+        public DateTime lastpayment { get; set; }
+
+        public DateTime nextpayment { get; set; }
+
+        [Required]
         public Frequency Frequency { get; set; }
-       
-        public List<Account> AccountsList{ get; set; }
-       
+
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
+
+
     }
 }
