@@ -36,6 +36,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (Context.User.IsInRole("Admin"))
+                        {
+
+
+                            <li class="nav-item dropdown">
+                                <a class="btn dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    Admin Actions
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="\Branches\Create">Create-brunch</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="btn dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="\Branches\Index">brunchs</a></li>
+                                </ul>
+                            </li>
+                        }
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                         {
                             <li class="nav-item">
@@ -48,9 +73,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
                             </li>
                         }
+
                         <li class="nav-item" id="time">
                         </li>
-                        
+
 
                     </ul>
                 </div>

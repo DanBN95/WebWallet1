@@ -15,9 +15,6 @@ namespace WebApplication1.Models
         public List<Incomes> IncomesList { get; set; }
         public List<Expenses> ExpensesList { get; set; }
         public List<FuturePayment> FuturePaymentList { get; set; } = null;
-
-        //public int BranchId { get; set; }
-
-        
+        public List<Branch> BranchList { get; set; }
     }
 }
