@@ -5,11 +5,12 @@
 
 <div>
 
-
     <h1 class="aboutTitle">
         About Us
     </h1>
-    <p class="aboutContent aboutVideoTitle">Learn more about our world:</p>
+
+    <canvas id="myCanvas" width="900" height="100" color="white">
+    </canvas>
     <video width="500" controls>
         <source src="~/Assets/CryptocurrencyVideo.mp4" type="video/mp4">
     </video>
@@ -18,6 +19,7 @@
             Contact Info<br />
             +972546788709<br />
             WebWallet@w.com
+
 
         </p>
     </aside>
@@ -34,17 +36,32 @@
 
 </div>
 
-@section Styles{ 
-<link rel="stylesheet" href="~/css/AboutUs.css" />
+
+
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.font = "30px Arial";
+    var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
+    gradient.addColorStop("0", " magenta");
+    gradient.addColorStop("0.5", "yellow");
+    gradient.addColorStop("1.0", "red");
+    ctx.fillStyle = gradient;
+    ctx.fillText("Learn more about our world:", 10, 50);
+
+</script>
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/AboutUs.css" />
 }
 
-@section Scripts{ 
+@section Scripts{
 
-<script src="~/js/coinLore.js"></script>
+    <script src="~/js/coinLore.js"></script>
 }
 
 
 
 
-   
+
 
