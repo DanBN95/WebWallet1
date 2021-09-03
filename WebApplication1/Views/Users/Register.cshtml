@@ -16,7 +16,7 @@
             <form asp-action="Register">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="inputContainer">
-                    <label asp-for="User_first_name" class="control-label titleLogin"></label>
+                    <label asp-for="User_first_name"  class="control-label titleLogin"> First Name</label>
                     <br />
                     <input asp-for="User_first_name" class="myInput" />
                     <br />
@@ -24,7 +24,7 @@
                     <span asp-validation-for="User_first_name" class="errorLogin"></span>
                 </div>
                 <div class="inputContainer">
-                    <label asp-for="User_last_name" class="control-label titleLogin"></label>
+                    <label asp-for="User_last_name" class="control-label titleLogin"> Last Name</label>
                     <br />
                     <input asp-for="User_last_name" class="myInput" />
                     <br />

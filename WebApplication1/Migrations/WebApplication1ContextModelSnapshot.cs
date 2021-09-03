@@ -44,6 +44,9 @@ namespace WebApplication1.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
+                    b.Property<int?>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -54,6 +57,8 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.ToTable("Account");
                 });
@@ -74,6 +79,7 @@ namespace WebApplication1.Migrations
 
                     b.Property<decimal>("lng")
                         .HasColumnType("decimal(18,2)");
+
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -220,6 +226,7 @@ namespace WebApplication1.Migrations
                     b.ToTable("User");
                 });
 
+
             modelBuilder.Entity("AccountBranch", b =>
                 {
                     b.HasOne("WebApplication1.Models.Account", null)
@@ -275,6 +282,11 @@ namespace WebApplication1.Migrations
                     b.Navigation("FuturePaymentList");
 
                     b.Navigation("IncomesList");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Branch", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

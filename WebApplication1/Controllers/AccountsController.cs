@@ -13,11 +13,18 @@ namespace WebApplication1.Controllers
 {
     public class AccountsController : Controller
     {
+     
+
         private readonly WebApplication1Context _context;
 
         public AccountsController(WebApplication1Context context)
         {
             _context = context;
+        }
+        public JsonResult GetAllLocation()
+        {
+            var data = _context.Account.ToList();
+            return Json(data);
         }
 
         // GET: Accounts
@@ -42,6 +49,7 @@ namespace WebApplication1.Controllers
             return View();
 
         }
+
 
         // GET: Accounts/Details/5
         public async Task<IActionResult> Details(int? id)
