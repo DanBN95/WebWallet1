@@ -21,6 +21,13 @@ function setForm(value) {
 
 }
 
+function setfuns() {
+    setInterval('startTime()', 360000);
+    
+}
+
+
+
         function startTime()
     {
          var today = new Date();
@@ -30,8 +37,7 @@ function setForm(value) {
             day = checkTime(day);
             m = checkTime(m);
             document.getElementById('time').innerHTML = day+"."+m+"."+y  ;
-            t=setTimeout('startTime()',50000); 
-    }
+               }
 
     function checkTime(i)
     {

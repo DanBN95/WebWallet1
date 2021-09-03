@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(WebApplication1Context))]
-    partial class WebApplication1ContextModelSnapshot : ModelSnapshot
+    [Migration("20210903110440_mog236")]
+    partial class mog236
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace WebApplication1.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
-                    b.Property<int?>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -57,8 +56,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
 
                     b.ToTable("Account");
                 });
@@ -79,7 +76,6 @@ namespace WebApplication1.Migrations
 
                     b.Property<decimal>("lng")
                         .HasColumnType("decimal(18,2)");
-
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -226,7 +222,6 @@ namespace WebApplication1.Migrations
                     b.ToTable("User");
                 });
 
-
             modelBuilder.Entity("AccountBranch", b =>
                 {
                     b.HasOne("WebApplication1.Models.Account", null)
@@ -282,11 +277,6 @@ namespace WebApplication1.Migrations
                     b.Navigation("FuturePaymentList");
 
                     b.Navigation("IncomesList");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Branch", b =>
-                {
-                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

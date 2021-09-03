@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebApplication1.Models.Branch>
+
+@{
+    ViewData["Title"] = "Index";
+    var list = (List<Branch>)ViewData["branches"];
+}
+
+<h1>Branches</h1>
+
+@if (Context.User.IsInRole("Admin")){
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>            
+ }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.city)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lng)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.city)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lng)
+                </td>
+                @if (Context.User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </td>
+
+                    @if (!list.Contains(item))
+                    {
+                        <td>
+                            <form asp-action="ConnectUser" asp-controller="Branches" asp-route-id="@item.Id">
+                                <button class="btn btn-primary">
+                                    add branch
+                                </button>
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <form asp-action="RemoveUser" asp-controller="Branches" asp-route-id="@item.Id">
+                                <button class="btn btn-primary">
+                                    Reamove branch
+                                </button>
+                            </form>
+                        </td>
+                    }
+                }
+
+                
+            </tr>
+            }
+        </tbody>
+    </table>

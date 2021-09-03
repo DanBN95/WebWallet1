@@ -8,30 +8,39 @@
 
 <hr />
 <div>
-    
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="inputContainer">
-                <label asp-for="Balance" class="formTitles"></label>
-                <br />
-                <input asp-for="Balance" class="inputExIn" />
-                <br />
 
-                <span asp-validation-for="Balance" class="text-danger"></span>
-            </div>
-            <div class="inputContainer">
-                <label asp-for="SavingBalance" class="formTitles"></label>
-                <br />
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="inputContainer">
+            <label asp-for="Balance" class="formTitles"></label>
+            <br />
+            <input asp-for="Balance" class="myInput" />
+            <br />
 
-                <input asp-for="SavingBalance" class="inputExIn" />
-                <br />
+            <span asp-validation-for="Balance" class="text-danger"></span>
+        </div>
+        <div class="inputContainer">
+            <label asp-for="SavingBalance" class="formTitles"></label>
+            <br />
 
-                <span asp-validation-for="SavingBalance" class="text-danger"></span>
-            </div>
-            <div class="inputContainer">
-                <input type="submit" value="Create" class="btn createBtn" />
-            </div>
-        </form>
+            <input asp-for="SavingBalance" class="myInput" />
+            <br />
+
+            <span asp-validation-for="SavingBalance" class="text-danger"></span>
+        </div>
+        <div class="inputContainer">
+            <label asp-for="BranchList" class="formTitles"></label>
+            <br />
+
+            <input asp-for="BranchList" class="myInput" />
+            <br />
+
+            <span asp-validation-for="BranchList" class="text-danger" asp-items="ViewBag.branchs"></span>
+        </div>
+        <div class="inputContainer">
+            <input type="submit" value="Create" class="btn loginbtn" />
+        </div>
+    </form>
 
 </div>
 
