@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace WebApplication1.wwwroot.css
+{
+    public class Home
+{
+    .myHomeContainer
+
+{
+    text-align: center;
+}
+
+.myHomeContainer {
+    text-align: center;
+    color:black;
+}
+
+
+.box {
+    padding: 0px 400px 0px 400px;
+    margin: 0px;
+}
+
+.inside {
+    font-size: 3rem;
+    border: 0.2rem solid;
+    margin: 50px 0px 50px 0px;
+}
+
+    }
+}

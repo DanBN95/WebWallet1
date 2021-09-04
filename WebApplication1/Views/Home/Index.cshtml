@@ -3,18 +3,36 @@
 }
 
 
-<div id="card"></div>
+<div class="myHomeContainer">
 
-
-<div class="myContainer">
-
-    <h1 class="homeText">
+    <h1 class="hometitle">
         Welcome To The Web Wallet!
     </h1>
+    <div class="box">
+        <p>follow your incomes</p>
+    </div>
+
+    <div class="box">
+        <p>follow your expenses</p>
+    </div>
+
+    <div class="box">
+        <p>Start Saving</p>
+    </div>
+
+    <div class="box">
+        <p>Repit</p>
+    </div>
+
+
+    Click here to<a asp-action="Login" asp-controller="Users"> Login</a>
 
 
 
-    
 
 </div>
 
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/Home.css" />
+}
