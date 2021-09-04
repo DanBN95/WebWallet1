@@ -1,0 +1,25 @@
+﻿.aboutContent {
+    font-size: 1rem;
+    color: white;
+    column-count: 2;
+    column-gap: 40px;
+    column-rule-style: solid;
+    column-rule-width: 1px;
+}
+
+aside {
+    width: 30%;
+    padding-left: 15px;
+    margin-left: 15px;
+    float: right;
+    font-style: italic;
+    background-color: lightgray;
+    margin-bottom:30px;
+}
+
+.aboutTitle {
+    color: white;
+}
+.aboutVideoTitle{
+    text-decoration:underline;
+}

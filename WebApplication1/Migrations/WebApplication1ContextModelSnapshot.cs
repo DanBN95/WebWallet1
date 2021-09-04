@@ -44,6 +44,9 @@ namespace WebApplication1.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
+                    b.Property<int?>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -55,33 +58,9 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId");
+
                     b.ToTable("Account");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Branch", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("city")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("lat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("lng")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Branch");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Expenses", b =>
@@ -220,21 +199,6 @@ namespace WebApplication1.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("AccountBranch", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Models.Branch", null)
-                        .WithMany()
-                        .HasForeignKey("BranchListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WebApplication1.Models.Expenses", b =>
                 {
                     b.HasOne("WebApplication1.Models.Account", "Account")
@@ -275,6 +239,11 @@ namespace WebApplication1.Migrations
                     b.Navigation("FuturePaymentList");
 
                     b.Navigation("IncomesList");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Branch", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }
