@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebApplication1.wwwroot.css
-{
-    public class Home
-{
-    .myHomeContainer
-
-{
+.myHomeContainer {
     text-align: center;
 }
 
@@ -28,7 +17,4 @@ namespace WebApplication1.wwwroot.css
     font-size: 3rem;
     border: 0.2rem solid;
     margin: 50px 0px 50px 0px;
-}
-
-    }
 }
