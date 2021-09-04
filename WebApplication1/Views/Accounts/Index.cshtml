@@ -55,6 +55,7 @@
             <i class="fas fa-user-shield"></i>My Future Payments
         </a>
     </div>
+
     </div>
 </div>
 
@@ -144,7 +145,10 @@
                 center: { lat: 32.079118664964334, lng: 34.76613117255147 },
 
             });
-             "@Url.Action("GetAllLocation","Branches")", function (data, status) {
+            $.get("@Url.Action("GetAllLocation","Accounts")", function (data, status) {
+                if (data == null) {
+                    return;
+                }
                 var marker = [];
                 for (var i = 0; i < data.length; i++) {
                      marker[i] = new google.maps.Marker({

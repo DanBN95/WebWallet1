@@ -14,14 +14,23 @@ namespace WebApplication1.Controllers
     public class AccountsController : Controller
     {
      
-
+        //
         private readonly WebApplication1Context _context;
 
         public AccountsController(WebApplication1Context context)
         {
             _context = context;
         }
-       
+
+        public JsonResult GetAllLocation()
+        {
+            try
+            {
+                var data = _context.Branch.ToList();
+                return Json(data);
+            }catch { return null; }
+
+        }
 
         // GET: Accounts
         public async Task<IActionResult> Index()
@@ -42,6 +51,7 @@ namespace WebApplication1.Controllers
             {
                 Console.WriteLine("Problem with Cookie!");
             }
+            
             Updatesaving();
             return View();
 

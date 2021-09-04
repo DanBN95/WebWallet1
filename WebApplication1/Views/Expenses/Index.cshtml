@@ -9,7 +9,6 @@
 
 <div class="containerExIn bgExpenses">
     <h1 class="titleExIn">Expenses</h1>
-    <button class="mybtn">click</button>
     <div id="card"></div>
 
 
@@ -25,13 +24,10 @@
             <div class="col" id="amountDiv">
                 <button type="button" class="btn-outline-primary" value="btn-amount" onclick="popup(this)">Amount</button>
             </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-primary">Description</button>
-            </div>
             <div class="col" id="categoryDiv">
                 <button type="button" class="btn btn-outline-primary" value="btn-category" onclick="popup(this)">Category</button>
             </div>
-            <div class="col">
+            <div class="col" id="dateDiv">
                 <button type="button" class="btn btn-outline-primary" value="btn-date" onclick="popup(this)">Date</button>
             </div>
         </div>
@@ -171,6 +167,35 @@
             for (var i = 0; i < categoryArray.length; i++) {
                 categoryArray[i].addEventListener("click", CreateHandler("Category", categoryArray.length));
             }
+        }
+
+        else if (ob.value == "btn-date") {
+
+            console.log("btn date pressed");
+
+            var monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            for (var i = 0; i < 12; i++) {
+                var month = document.createElement("a");
+                month.className = "col-date";
+                month.id = "col-date";
+                month.href = "";
+                month.text = monthArray[i];
+                month.textContent = monthArray[i];
+                month.value = i + 1;
+                month.role = "tab";
+                selectList.appendChild(month);
+            }
+
+            document.getElementById(id + "Div").appendChild(selectList);
+            console.log(selectList);
+
+            const dateArray = selectList.childNodes;
+
+            for (var i = 0; i < monthArray.length; i++) {
+                dateArray[i].addEventListener("click", CreateHandler("Date", monthArray.length));
+            }
+
         }
     }
 
