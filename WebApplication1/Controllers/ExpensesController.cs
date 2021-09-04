@@ -35,6 +35,116 @@ namespace WebApplication1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string AccountSearch, string sortby, string check)
+        {
+            ViewData["AccountDetails"] = AccountSearch;
+            ViewData["SortingByAmount"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDescription"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByCategory"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+            ViewData["SortingByDate"] = string.IsNullOrEmpty(check) ? "byDesecnding" : "";
+
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            try
+            {
+                var expenses = _context.Expenses.Where(i => i.AccountId == account.First().Id).ToList();
+
+                switch (sortby)
+                {
+                    case "Amount":
+                        expenses = string.IsNullOrEmpty(ViewData["SortingByAmount"].ToString()) ? expenses.OrderBy(i => i.Amount).ToList() : expenses.OrderByDescending(i => i.Amount).ToList();
+                        break;
+                    case "Description":
+                        expenses = string.IsNullOrEmpty(ViewData["SortingByDescription"].ToString()) ? expenses.OrderBy(i => i.Description).ToList() : expenses.OrderByDescending(i => i.Description).ToList();
+                        break;
+                    case "Category":
+                        expenses = string.IsNullOrEmpty(ViewData["SortingByCategory"].ToString()) ? expenses.OrderBy(i => i.Category).ToList() : expenses.OrderByDescending(i => i.Category).ToList();
+                        break;
+                    case "Date":
+                        expenses = string.IsNullOrEmpty(ViewData["SortingByDate"].ToString()) ? expenses.OrderBy(i => i.Date).ToList() : expenses.OrderByDescending(i => i.Date).ToList();
+                        break;
+                    default:
+                        expenses = expenses.OrderByDescending(i => i.Date).ToList();
+                        break;
+                }
+
+                if (!String.IsNullOrEmpty(AccountSearch))
+                {
+                    expenses = expenses.Where(i => i.Description.Contains(AccountSearch)).ToList();
+                }
+                return View(expenses);
+            }
+
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+        }
+
+        public IActionResult Index(List<Expenses> expenses)
+        {
+            return View(expenses);
+        }
+
+        public IActionResult SortingByAmount(string id)
+        {
+            int max, min;
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+
+            try
+            {
+                if (id != null)
+                {
+                    string[] range = id.Split("_");
+                    if (!range[0].Equals("above"))
+                    {
+                        min = Int32.Parse(range[0]);
+                        max = Int32.Parse(range[1]);
+
+                        var expenses = _context.Expenses.Where(i => i.AccountId == account.First().Id &&
+                        i.Amount >= min && i.Amount <= max).ToList();
+
+                        return View("index", expenses);
+                    }
+
+                    else
+                    {
+                        min = 1000000;
+                        var expenses = _context.Expenses.Where(i => i.AccountId == account.First().Id &&
+                        i.Amount >= min).ToList();
+
+                        return View("index", expenses);
+                    }
+
+                }
+            }
+            catch { return RedirectToAction("PageNotFound", "Home"); }
+
+            return RedirectToAction("PageNotFound", "Home");
+
+        }
+
+        public IActionResult SortingByCategory(string id)
+        {
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+
+            InCategory category;
+            if (Enum.TryParse(id, out category))
+            {
+                var expenses = _context.Expenses.Where(i => i.AccountId == account.First().Id &&
+                            i.Category.Equals(category)).ToList();
+                return View("index", expenses);
+            }
+
+
+            return RedirectToAction("PageNotFound", "Home");
+
+        }
+
         // GET: Expenses/Details/5
         public async Task<IActionResult> Details(int? id)
         {

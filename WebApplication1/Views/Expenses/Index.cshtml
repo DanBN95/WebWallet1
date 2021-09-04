@@ -13,6 +13,31 @@
     <div id="card"></div>
 
 
+    <form method="get" asp-action="Index">
+        <p>
+            <input type="search" placeholder="Type Open Text For Description ..." value="@ViewData["AccountDetails"]" name="AccountSearch" style="width:500px" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-action="Index">Get All Incomes</a>
+        </p>
+    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col" id="amountDiv">
+                <button type="button" class="btn-outline-primary" value="btn-amount" onclick="popup(this)">Amount</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary">Description</button>
+            </div>
+            <div class="col" id="categoryDiv">
+                <button type="button" class="btn btn-outline-primary" value="btn-category" onclick="popup(this)">Category</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary" value="btn-date" onclick="popup(this)">Date</button>
+            </div>
+        </div>
+    </div>
+
+
     <table class="table">
         <thead class="myThead">
             <tr>
@@ -62,8 +87,100 @@
 
 </div>
 
-<a class="addBtnExIn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyleExIn"></i> Add New Expense</a>
+    <a class="addBtnExIn" asp-action="Create"><i class="fas fa-plus-circle lg iconStyleExIn"></i> Add New Expense</a>
+    <script>
+    async function popup(ob) {
+        console.log("popup func");
+        console.log(ob.value);
 
+        //var myWindow = window.open("", "", "height=150,width=150,menubar=no,status=no,titlebar=no,toolbar=no");
+        var id = ob.value.split("-")[1];
+        console.log("id: " + id);
+        var selectList = document.createElement("div");
+        selectList.className = "list-group"
+        selectList.id = "list-tab";
+        selectList.role = "tablist";
+
+        if (ob.value === "btn-amount") {
+            console.log("btn amount pressed");
+
+            var valueArray = ["0_999", "1000_9999", "10000_999999", "100000_1000000", "above_mil"];
+            var textArray = ["below 1,000", "1,000 - 10,000", "10,000 - 100,000", "100,000 - 1,000,000", "above 1,000,000"];
+
+            for (var i = 0; i < valueArray.length; i++) {
+
+                var option = document.createElement("a");
+                option.className = "list-group-item list-group-item-action";
+                option.id = "list-" + valueArray[i] + "-list";
+                option.href = "";
+                option.text = textArray[i];
+                option.value = valueArray[i];
+                option.role = "tab";
+                option.textContent = textArray[i];
+                selectList.appendChild(option);
+            }
+
+            document.getElementById(id + "Div").appendChild(selectList);
+            console.log(selectList);
+
+            const optionArray = selectList.childNodes;
+            var Atags = selectList.getElementsByClassName("list-group-item list-group-item-action");
+
+            for (var i = 0; i < Atags.length; i++) {
+                Atags[i].addEventListener("click", () => {
+                    var current_active = document.getElementsByClassName("list-group-item list-group-item-action active");
+                    // If there's no active class
+                    if (current_active.length > 0) {
+                        current_active[0].className = current_active[0].className.replace(" active", "");
+                    }
+                    // Add the active class to the current/clicked button
+                    this.className += " active";
+                    console.log(this.className);
+                });
+            }
+
+            for (var i = 0; i < optionArray.length; i++) {
+                optionArray[i].addEventListener("click", CreateHandler("Amount", optionArray.length));
+            }
+        }
+
+        else if (ob.value === "btn-category") {
+            console.log("btn category pressed");
+
+            var categoryLen = @Enum.GetValues(typeof(InCategory)).Length;
+
+            var InCategories = ["Food", "Pleasure", "Insurance", "Health", "Sport", "Investment","Other"];
+            for (var i = 0; i < categoryLen; i++) {
+
+                var divCategory = document.createElement("a");
+                divCategory.className = "col cat";
+                divCategory.id = "col-category";
+                divCategory.href = "";
+                divCategory.text = InCategories[i];
+                divCategory.textContent = InCategories[i];
+                divCategory.value = InCategories[i];
+                divCategory.role = "tab";
+                selectList.appendChild(divCategory);
+            }
+
+            document.getElementById(id + "Div").appendChild(selectList);
+            console.log(selectList);
+
+            const categoryArray = selectList.childNodes;
+
+            for (var i = 0; i < categoryArray.length; i++) {
+                categoryArray[i].addEventListener("click", CreateHandler("Category", categoryArray.length));
+            }
+        }
+    }
+
+    function CreateHandler(string,len) {
+        for (var i = 0; i < len; i++) {
+            document.getElementById("list-tab").childNodes[i].href =
+                document.getElementById("list-tab").childNodes[i].href == "" ? "" : "SortingBy" + string + "/" + document.getElementById("list-tab").childNodes[i].value;
+        }
+    }
+    </script>
 
 
 

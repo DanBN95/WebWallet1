@@ -77,8 +77,7 @@ namespace WebApplication1.Controllers
             [ValidateAntiForgeryToken]
             public async Task<IActionResult> Login([Bind("Id,Email,Password")] User user)
             {
-                //if (ModelState.IsValid)
-                // {
+
                 var q = from u in _context.User
                         where u.Password == user.Password && u.Email == user.Email
                         select u;
@@ -94,7 +93,6 @@ namespace WebApplication1.Controllers
                     ViewData["Error"] = "Incorrect Email or Password";
                 }
 
-                //}
                 return View(user);
             }
             private async void Signin(User account)
