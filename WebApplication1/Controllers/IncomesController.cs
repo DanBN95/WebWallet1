@@ -14,7 +14,8 @@ namespace WebApplication1.Controllers
     public class IncomesController : Controller
     {
         private readonly WebApplication1Context _context;
-        private bool[] flag = new bool[] { false, false, false, false };
+        private readonly WebApplication1Context _incomes;
+
 
         public IncomesController(WebApplication1Context context)
         {
@@ -82,6 +83,68 @@ namespace WebApplication1.Controllers
             catch { return RedirectToAction("PageNotFound", "Home"); }
         }
 
+        public IActionResult Index(List<Incomes> incomes)
+        {
+            return View(incomes);
+        }
+
+        public IActionResult SortingByAmount (string id)
+        {
+            int max, min;
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            
+            try
+            {
+                if (id != null)
+                {
+                    string[] range = id.Split("_");
+                    if (!range[0].Equals("above"))
+                    {
+                        min = Int32.Parse(range[0]);
+                        max = Int32.Parse(range[1]);
+
+                        var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id &&
+                        i.Amount >= min && i.Amount <= max).ToList();
+
+                        return View("index", incomes);
+                    }
+
+                    else
+                    {
+                        min = 1000000;
+                        var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id &&
+                        i.Amount >= min).ToList();
+                      
+                        return View("index",incomes);
+                    }
+
+                }
+            } catch { return RedirectToAction("PageNotFound", "Home"); }
+
+            return RedirectToAction("PageNotFound", "Home");
+
+        }
+
+        public IActionResult SortingByCategory(string id)
+        {
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+
+            InCategory category;
+            if (Enum.TryParse(id, out category))
+            {
+                var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id &&
+                            i.Category.Equals(category)).ToList();
+                return View("index", incomes);
+            }
+
+
+            return RedirectToAction("PageNotFound", "Home");
+
+        }
         // GET: Incomes/Details/5
         //public async Task<IActionResult> Details(int? id)
         //{
@@ -144,6 +207,8 @@ namespace WebApplication1.Controllers
             return View(incomes);
         }
 
+
+
         // GET: Incomes/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
@@ -161,7 +226,7 @@ namespace WebApplication1.Controllers
         //    return View(incomes);
         //}
 
-        // POST: Incomes/Edit/5
+        //POST: Incomes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
