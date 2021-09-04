@@ -21,6 +21,11 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
+        public JsonResult GetAllLocation()
+        {
+            var data = _context.Branch.ToList();
+            return Json(data);
+        }
         // GET: Branches
         public async Task<IActionResult> Index()
         {
@@ -180,23 +185,38 @@ namespace WebApplication1.Controllers
 
 
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveUser(int? id)
-        {
-            var accounts = from a in _context.Account
-                           where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
-                           select a;
-            
-            if (accounts.Count() > 0)
-            {
-                accounts.First().BranchList = new List<Branch>();
-                accounts.First().BranchList.Remove(_context.Branch.FirstOrDefault(x => x.Id == id));
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction("Index", "Branches");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> RemoveUser(int? id)
+        //{
+        //    var acount_id = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+           
+        //    var accounts = from a in _context.Account
+        //                   where a.UserId.ToString() == acount_id
+        //                   select a;
+        //    var account_id1 = Int32.Parse(acount_id);
+        //    var branch = await _context.Branch.FindAsync(id);
+
+        //    if (accounts.Count() > 0)
+        //    {
+
+        //        Branch nwbranch = new Branch();
+        //        nwbranch.Accounts = new List<Account>();
+        //        nwbranch.Accounts = branch.Accounts;
+        //        //nwbranch.Accounts.Remove(accounts.First());
+        //        nwbranch.name =branch.name;
+        //        nwbranch.city =branch.city;
+        //        nwbranch.lat =branch.lat;
+        //        nwbranch.lng =branch.lng;
+        //        int temp_id =branch.Id;
+        //       _context.Branch.Remove(branch);
+        //        nwbranch.Id = temp_id;
+        //        _context.Add(nwbranch);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    return RedirectToAction("Index", "Branches");
 
 
-        }
+        //}
     }
 }
