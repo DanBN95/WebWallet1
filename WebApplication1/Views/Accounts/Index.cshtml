@@ -19,13 +19,6 @@
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.SavingBalance) is: @ViewBag.SavingBalance₪
             </div>
         </div>
-
-        <div class="buttons col-sm">
-            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
-                <i class="fas fa-plus-circle"></i> Add Income
-            </a>
-
-
         @* <div class="container-fluid padding">
                 <div class="row padding">
                     <div class="col-lg-6">
@@ -37,20 +30,30 @@
                 </div>
             </div>*@
 
-        <div class="buttons col-sm">
-            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
-                <i class="fas fa-plus-circle"></i> Add Income
-            </a>
+    <div class="buttons col-sm">
+        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
+            <i class="fas fa-plus-circle"></i> Add Income
+        </a>
 
-            <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
-                <i class="fas fa-minus-circle"></i>Add Expense
-            </a>
+        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
+            <i class="fas fa-minus-circle"></i>Add Expense
+        </a>
 
-            <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
-                <i class="fas fa-user-shield" ></i>Add Future Payment
+        <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
+            <i class="fas fa-user-shield"></i>Add Future Payment
+        </a>
+        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Index">
+            <i class="fas fa-plus-circle"></i>My Incomes
+        </a>
 
-            </a>
-        </div>
+        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Index">
+            <i class="fas fa-minus-circle"></i>My Expenses
+        </a>
+
+        <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Index">
+            <i class="fas fa-user-shield"></i>My Future Payments
+        </a>
+    </div>
     </div>
 </div>
 
@@ -84,13 +87,28 @@
                         $(".myclose").removeClass("hidden");
                         $('#card').removeClass("hidden");
                         var data = result["data"];
+                        //for (var i = 0; i < data.length; i++) {
+                        //    (function (index) {
+                        //        var template =
+                        //            '<div class="card mycard"> <i class="fab fa-bitcoin yellowColor"></i> <div class="card-body"> <h5 class="card-title">' + data[i].name +
+                        //            '</h5> <p class="card-text">Coin Price: ' + data[i].price_usd +
+                        //            '</p> <p class="card-text">  Change in last 24 hours: ' + data[i].percent_change_24h +
+                        //            '</p> </div> </div>';
+
+                               
+
+                        //        $('#card').append(template);
+                        //    },1000);
+                        //}
                         for (var i = 0; i < data.length; i++) {
                             var template =
                                 '<div class="card mycard"> <i class="fab fa-bitcoin yellowColor"></i> <div class="card-body"> <h5 class="card-title">' + data[i].name +
                                 '</h5> <p class="card-text">Coin Price: ' + data[i].price_usd +
                                 '</p> <p class="card-text">  Change in last 24 hours: ' + data[i].percent_change_24h +
                                 '</p> </div> </div>';
+
                             $('#card').append(template);
+                            
                         }
                         console.log(result);
                         console.log(result.data.length);
@@ -125,19 +143,15 @@
                 center: { lat: 32.079118664964334, lng: 34.76613117255147 },
 
             });
-
-            $.get("@Url.Action("GetAllLocation","Accounts")", function (data, status) {
+             "@Url.Action("GetAllLocation","Branches")", function (data, status) {
                 var marker = [];
-
                 for (var i = 0; i < data.length; i++) {
-                    console.log(data[i].savingBalance);
-                    marker[i] = new google.maps.Marker({
-
-                        position: { lat: data[i].balance, lng: data[i].savingBalance },
+                     marker[i] = new google.maps.Marker({
+                        position: { lat: data[i].lat, lng: data[i].lng },
                         map: map
                     });
                 }
-            })
+            });
         }
     </script>
 
