@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
     public class AccountsController : Controller
     {
      
-
+        //
         private readonly WebApplication1Context _context;
 
         public AccountsController(WebApplication1Context context)

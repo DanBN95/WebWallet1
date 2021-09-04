@@ -145,6 +145,24 @@ namespace WebApplication1.Controllers
             return RedirectToAction("PageNotFound", "Home");
 
         }
+        public IActionResult SortingByDate(string id)
+        {
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+
+            //string [] monthArray = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+            try
+            {
+                var incomes = _context.Incomes.Where(i => i.AccountId == account.First().Id &&
+                i.Date.Month.ToString() == id).ToList();
+
+                return View("index", incomes);
+            }
+            catch {  return RedirectToAction("PageNotFound", "Home"); }
+
+        }
         // GET: Incomes/Details/5
         //public async Task<IActionResult> Details(int? id)
         //{
