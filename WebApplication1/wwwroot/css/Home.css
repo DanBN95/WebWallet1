@@ -15,6 +15,7 @@
 
 .inside {
     font-size: 3rem;
-    border: 0.2rem solid;
+    border: 0.2rem solid white;
     margin: 50px 0px 50px 0px;
+    color: white;
 }

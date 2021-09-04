@@ -21,11 +21,6 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
-        public JsonResult GetAllLocation()
-        {
-            var data = _context.Branch.ToList();
-            return Json(data);
-        }
         // GET: Branches
         public async Task<IActionResult> Index()
         {
