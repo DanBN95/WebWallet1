@@ -12,13 +12,15 @@
     </div>
     <h1 class="Logintitle">Register a new user</h1>
     <div>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
         <div class="col-12">
             <form asp-action="Register">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="inputContainer">
-                    <label asp-for="User_first_name"  class="control-label titleLogin"> First Name</label>
+                    <label asp-for="User_first_name" class="control-label titleLogin"> First Name</label>
                     <br />
-                    <input asp-for="User_first_name" class="myInput" />
+                    <input asp-for="User_first_name" class="myInput" id="first_name" />
                     <br />
 
                     <span asp-validation-for="User_first_name" class="errorLogin"></span>
@@ -26,7 +28,7 @@
                 <div class="inputContainer">
                     <label asp-for="User_last_name" class="control-label titleLogin"> Last Name</label>
                     <br />
-                    <input asp-for="User_last_name" class="myInput" />
+                    <input asp-for="User_last_name" class="myInput" id="last_name" />
                     <br />
 
                     <span asp-validation-for="User_last_name" class="errorLogin"></span>
@@ -35,7 +37,7 @@
                     <label asp-for="Email" class="control-label titleLogin"></label>
                     <br />
 
-                    <input asp-for="Email" class="myInput" />
+                    <input asp-for="Email" class="myInput" id="email" />
                     <br />
 
                     <span asp-validation-for="Email" class="errorLogin"></span>
@@ -71,3 +73,61 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '884694292155499',
+            cookie: true,
+            xfbml: true,
+            version: 'v11.0'
+        });
+
+        FB.AppEvents.logPageView();
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+    };
+
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            console.log(response.authResponse.accessToken);
+            setElements();
+        }
+        else
+            console.log("Not authenticated");
+    }
+
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    function setElements() {
+        FB.api('/me?fields=id,name,email', function (response) {
+            console.log(JSON.stringify(response));
+            const str = JSON.stringify(response);
+            const myObj = JSON.parse(str);
+            var email = myObj.email;
+            const name = myObj.name;
+            var arr = name.split(' ');
+            console.log(arr);
+            var first_name = arr[0];
+            var last_name = arr[1];
+            document.getElementById('email').innerHTML = email;
+            document.getElementById('first_name').innerHTML = first_name;
+            document.getElementById('last_name').innerHTML = last_name;
+        });
+    }
+</script>

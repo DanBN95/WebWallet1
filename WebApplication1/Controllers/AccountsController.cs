@@ -125,7 +125,7 @@ namespace WebApplication1.Controllers
         {
             //System.Diagnostics.Debug.WriteLine("This will be displayed in output window");
             DateTime today = DateTime.Today;
-            var today_payments = _context.FuturePayment.Where(i => (i.AccountId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value && i.nextpayment.CompareTo(today) <= 0)).ToArray();
+            var today_payments = _context.FuturePayment.Where(i =>  i.nextpayment.CompareTo(today) <= 0).ToArray();
 
             for (int i = 0; i < today_payments.Count(); i++)
             {
