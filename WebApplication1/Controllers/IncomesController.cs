@@ -163,24 +163,24 @@ namespace WebApplication1.Controllers
             catch {  return RedirectToAction("PageNotFound", "Home"); }
 
         }
-        // GET: Incomes/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Incomes/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var incomes = await _context.Incomes
-        //        .Include(i => i.Account)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (incomes == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var incomes = await _context.Incomes
+                .Include(i => i.Account)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(incomes);
-        //}
+            return View(incomes);
+        }
 
         // GET: Incomes/Create
         public IActionResult Create()
@@ -227,58 +227,58 @@ namespace WebApplication1.Controllers
 
 
 
-        // GET: Incomes/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Incomes/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var incomes = await _context.Incomes.FindAsync(id);
-        //    if (incomes == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", incomes.AccountId);
-        //    return View(incomes);
-        //}
+            var incomes = await _context.Incomes.FindAsync(id);
+            if (incomes == null)
+            {
+                return NotFound();
+            }
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", incomes.AccountId);
+            return View(incomes);
+        }
 
         //POST: Incomes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date,AccountId")] Incomes incomes)
-        //{
-        //    if (id != incomes.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Description,Category,Date,AccountId")] Incomes incomes)
+        {
+            if (id != incomes.Id)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(incomes);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!IncomesExists(incomes.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", incomes.AccountId);
-        //    return View(incomes);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(incomes);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!IncomesExists(incomes.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AccountId"] = new SelectList(_context.Account, "Id", "Id", incomes.AccountId);
+            return View(incomes);
+        }
 
         //GET: Incomes/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -314,9 +314,9 @@ namespace WebApplication1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool IncomesExists(int id)
-        //{
-        //    return _context.Incomes.Any(e => e.Id == id);
-        //}
+        private bool IncomesExists(int id)
+        {
+            return _context.Incomes.Any(e => e.Id == id);
+        }
     }
 }
