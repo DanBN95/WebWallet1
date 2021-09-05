@@ -306,7 +306,7 @@ namespace WebApplication1.Controllers
         {
             var incomes = await _context.Incomes.FindAsync(id);
             var account = from a in _context.Account
-                          where a.UserId == incomes.AccountId
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                           select a;
             account.First().Balance -= incomes.Amount;
             _context.Incomes.Remove(incomes);

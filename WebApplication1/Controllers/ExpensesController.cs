@@ -312,6 +312,10 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var expenses = await _context.Expenses.FindAsync(id);
+            var account = from a in _context.Account
+                          where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
+                          select a;
+            account.First().Balance += expenses.Amount;
             _context.Expenses.Remove(expenses);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
