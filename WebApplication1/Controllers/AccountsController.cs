@@ -41,11 +41,22 @@ namespace WebApplication1.Controllers
                            where a.UserId.ToString() == ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value
                            select a;
 
+
+
             if (accounts.Count() > 0)
             {
                 ViewBag.Username = accounts.First().Name;
                 ViewBag.Balance = accounts.First().Balance;
                 ViewBag.SavingBalance = accounts.First().SavingBalance;
+
+               //var list = _context.Incomes.GroupJoin(
+               //     _context.Expenses,
+               //     Incdate => Incdate.Date,
+               //     Expdate => Expdate.Date,
+               //     (Incdate, Expdate) => new { Incdate, Expdate }
+               //     ).ToList();
+
+               // ViewData["LastActions"] = list;
             }
             else
             {
@@ -204,85 +215,85 @@ namespace WebApplication1.Controllers
 
         }
 
-        //// GET: Accounts/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Accounts/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var account = await _context.Account.FindAsync(id);
-        //    if (account == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(account);
-        //}
+            var account = await _context.Account.FindAsync(id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+            return View(account);
+        }
 
-        //// POST: Accounts/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
-        //{
-        //    if (id != account.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Accounts/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Name,Balance,SavingBalance")] Account account)
+        {
+            if (id != account.Id)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(account);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AccountExists(account.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(account);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(account);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(account.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(account);
+        }
 
-        //// GET: Accounts/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Accounts/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var account = await _context.Account
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (account == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var account = await _context.Account
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(account);
-        //}
+            return View(account);
+        }
 
-        //// POST: Accounts/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var account = await _context.Account.FindAsync(id);
-        //    _context.Account.Remove(account);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Accounts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var account = await _context.Account.FindAsync(id);
+            _context.Account.Remove(account);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 
 
