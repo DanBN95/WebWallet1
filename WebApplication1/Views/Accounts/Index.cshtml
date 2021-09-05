@@ -12,51 +12,44 @@
         <div class="col-sm">
             <span class="userImg"> <i class="far fa-user-circle fa-10x"></i> </span>
             <h1 class="userName">@ViewBag.Username.ToUpper() </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <div class="contentAccount">
+                <br />
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.Balance) is:  @ViewBag.Balance₪
-
-                <br /> <br />
-
+                <br /><br />
                 <i class="fas fa-wallet yellowColor"></i> Your updated @Html.DisplayNameFor(model => model.SavingBalance) is: @ViewBag.SavingBalance₪
             </div>
         </div>
-        @* <div class="container-fluid padding">
-                <div class="row padding">
-                    <div class="col-lg-6">
-                        <a asp-controller="Incomes" asp-action="Index">Incomes</a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a asp-controller="Expenses" asp-action="Index">Expenses</a>
-                    </div>
-                </div>
-            </div>*@
-
-    <div class="buttons col-sm">
-        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
-            <i class="fas fa-plus-circle"></i> Add Income
-        </a>
-
-        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
-            <i class="fas fa-minus-circle"></i>Add Expense
-        </a>
-
-        <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
-            <i class="fas fa-user-shield"></i>Add Future Payment
-        </a>
-        <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Index">
-            <i class="fas fa-plus-circle"></i>My Incomes
-        </a>
-
-        <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Index">
-            <i class="fas fa-minus-circle"></i>My Expenses
-        </a>
-
-        <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Index">
-            <i class="fas fa-user-shield"></i>My Future Payments
-        </a>
+        <div class="col-sm">
+            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Index">
+               <br />My Incomes
+            </a>
+            <a class="incomesBtn actionBtn" asp-controller="Incomes" asp-action="Create">
+                <i class="fas fa-plus-circle"></i> Add Income
+            </a>
+        </div>
+        <div class="col-sm">
+            <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Index">
+               <br />My Expenses
+            </a>
+            <a class="expenssesBtn actionBtn" asp-controller="Expenses" asp-action="Create">
+                <i class="fas fa-minus-circle"></i>Add Expense
+            </a>
+        </div>
+        <div class="col-sm">
+            <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Index">
+                <br />My Future Payments
+            </a>
+            <a class="FuturepBtn actionBtn" asp-controller="FuturePayments" asp-action="Create">
+                <i class="fas fa-user-shield"></i>Add Future Payment
+            </a>
+        </div>
     </div>
 
-    </div>
+
 </div>
 
 <p style="font-size:1.2rem; color:antiquewhite; padding-top:20px;">Visit us in our branches</p>

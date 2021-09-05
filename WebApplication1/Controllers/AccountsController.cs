@@ -125,11 +125,8 @@ namespace WebApplication1.Controllers
         {
             //System.Diagnostics.Debug.WriteLine("This will be displayed in output window");
             DateTime today = DateTime.Today;
-<<<<<<< HEAD
+
             var today_payments = _context.FuturePayment.Where(i =>  i.nextpayment.CompareTo(today) <= 0).ToArray();
-=======
-            var today_payments = _context.FuturePayment.Where(i => i.nextpayment.CompareTo(today) <= 0).ToArray();
->>>>>>> origin/master
 
             for (int i = 0; i < today_payments.Count(); i++)
             {
